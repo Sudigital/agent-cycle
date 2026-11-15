@@ -36,6 +36,7 @@
     "*.min.js",
     "*.min.css",
     "*.d.ts",
+    ".tmp-project",
     ".tmp-skills"
   ]
 }

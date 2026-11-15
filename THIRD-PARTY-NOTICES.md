@@ -1,25 +1,41 @@
 # Third-party notices
 
-This repository's own prose is MIT (see `LICENSE`). The skills below carry the
-licenses shown. Apache-2.0 components retain their full license text in their
-skill directory (`LICENSE.txt`), and this file records the source, pinned
-commit, and license for every skill in `skills/`.
+This repository's own prose is MIT (see `LICENSE`). Every adapted or vendored
+skill keeps its upstream license text as `LICENSE.txt` in its skill directory,
+and this file records the source, pinned commit, license, and license file for
+every skill in `skills/`.
 
-| Skill                           | Source                                             | Commit                                     | License    | Changes                                                                                             |
-| ------------------------------- | -------------------------------------------------- | ------------------------------------------ | ---------- | --------------------------------------------------------------------------------------------------- |
-| `grill-with-docs`               | this repository                                    | `v0.1.0`                                   | MIT        | Original to this kit.                                                                               |
-| `handoff`                       | this repository                                    | `v0.1.0`                                   | MIT        | Original to this kit.                                                                               |
-| `grilling`                      | https://github.com/mattpocock/skills               | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | MIT        | Adapted: kit skill names, harness-neutral wording.                                                  |
-| `tdd`                           | https://github.com/mattpocock/skills               | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | MIT        | Adapted: ticket and plan references generalized.                                                    |
-| `code-review-and-quality`       | https://github.com/addyosmani/agent-skills         | `301b02b12bff98e4688e6984af6556802322bbde` | MIT        | Adapted: project-specific review references generalized.                                            |
-| `notion-cli`                    | https://github.com/makenotion/skills               | `10e976aa591995fd60c75ef13beba1a8aa827fcc` | MIT        | Adapted: data-source query path, placeholder ids, tracker interface.                                |
-| `pentest`                       | https://github.com/usestrix/strix                  | `4719329d1c3eb0db796714397551945c514a2301` | Apache-2.0 | Adapted: generic target paths and report destinations. Wraps the Strix CLI; `LICENSE.txt` retained. |
-| `diagnosing-bugs`               | https://github.com/mattpocock/skills               | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | MIT        | Vendored.                                                                                           |
-| `improve-codebase-architecture` | https://github.com/mattpocock/skills               | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | MIT        | Vendored.                                                                                           |
-| `codebase-design`               | https://github.com/mattpocock/skills               | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | MIT        | Vendored.                                                                                           |
-| `shadcn`                        | https://github.com/shadcn-ui/ui                    | `dd41d19e2f80ff6891951f7ced74c2c9a650b065` | MIT        | Vendored.                                                                                           |
-| `frontend-design`               | https://github.com/anthropics/skills               | `2c5958ecac7cee2b583967a2c4981d0f4a75c579` | Apache-2.0 | Vendored; `LICENSE.txt` retained.                                                                   |
-| `security-audit`                | https://github.com/cloudflare/security-audit-skill | `c1c8a8c1471069fb0e188eeaff69b8e8db6564a8` | MIT        | Vendored.                                                                                           |
+| Skill                           | Source                                             | Commit                                     | License    | License file                                       | Changes                                                                     |
+| ------------------------------- | -------------------------------------------------- | ------------------------------------------ | ---------- | -------------------------------------------------- | --------------------------------------------------------------------------- |
+| `grill-with-docs`               | https://github.com/mattpocock/skills               | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | MIT        | `skills/grill-with-docs/LICENSE.txt`               | Adapted: workflow contract, tracker interface, stage mapping.               |
+| `handoff`                       | https://github.com/mattpocock/skills               | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | MIT        | `skills/handoff/LICENSE.txt`                       | Adapted: ticket and handoff-path conventions.                               |
+| `grilling`                      | https://github.com/mattpocock/skills               | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | MIT        | `skills/grilling/LICENSE.txt`                      | Adapted: kit skill names, harness-neutral wording.                          |
+| `tdd`                           | https://github.com/mattpocock/skills               | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | MIT        | `skills/tdd/LICENSE.txt`                           | Adapted: ticket and plan references generalized.                            |
+| `code-review-and-quality`       | https://github.com/addyosmani/agent-skills         | `301b02b12bff98e4688e6984af6556802322bbde` | MIT        | `skills/code-review-and-quality/LICENSE.txt`       | Adapted: project-specific review references generalized.                    |
+| `notion-cli`                    | https://github.com/makenotion/skills               | `10e976aa591995fd60c75ef13beba1a8aa827fcc` | MIT        | `skills/notion-cli/LICENSE.txt`                    | Adapted: data-source query path, placeholder ids, tracker interface.        |
+| `pentest`                       | https://github.com/usestrix/strix                  | `4719329d1c3eb0db796714397551945c514a2301` | Apache-2.0 | `skills/pentest/LICENSE.txt`                       | Adapted: generic target paths and report destinations. Wraps the Strix CLI. |
+| `diagnosing-bugs`               | https://github.com/mattpocock/skills               | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | MIT        | `skills/diagnosing-bugs/LICENSE.txt`               | Vendored.                                                                   |
+| `improve-codebase-architecture` | https://github.com/mattpocock/skills               | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | MIT        | `skills/improve-codebase-architecture/LICENSE.txt` | Vendored.                                                                   |
+| `codebase-design`               | https://github.com/mattpocock/skills               | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | MIT        | `skills/codebase-design/LICENSE.txt`               | Vendored.                                                                   |
+| `shadcn`                        | https://github.com/shadcn-ui/ui                    | `dd41d19e2f80ff6891951f7ced74c2c9a650b065` | MIT        | `skills/shadcn/LICENSE.txt`                        | Vendored.                                                                   |
+| `frontend-design`               | https://github.com/anthropics/skills               | `2c5958ecac7cee2b583967a2c4981d0f4a75c579` | Apache-2.0 | `skills/frontend-design/LICENSE.txt`               | Vendored.                                                                   |
+| `security-audit`                | https://github.com/cloudflare/security-audit-skill | `c1c8a8c1471069fb0e188eeaff69b8e8db6564a8` | MIT        | `skills/security-audit/LICENSE.txt`                | Vendored.                                                                   |
+
+## MIT license texts
+
+Each MIT-licensed skill carries the upstream MIT text verbatim in
+`skills/<skill>/LICENSE.txt`. The copyright lines are:
+
+- `grill-with-docs`, `handoff`, `grilling`, `tdd`, `diagnosing-bugs`,
+  `improve-codebase-architecture`, `codebase-design` — Copyright (c) 2026 Matt
+  Pocock.
+- `code-review-and-quality` — Copyright (c) 2025 Addy Osmani.
+- `notion-cli` — Copyright (c) 2026 Notion Labs, Inc.
+- `shadcn` — Copyright (c) 2023 shadcn.
+- `security-audit` — Copyright (c) 2025-2026 Cloudflare, Inc.
+
+The MIT permission notice and warranty disclaimer are reproduced in each file,
+as the license requires.
 
 ## Apache License 2.0 texts
 

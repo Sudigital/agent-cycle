@@ -1,6 +1,8 @@
 node_modules/
 coverage/
+.tmp-project/
 .tmp-skills/
+.agent-cycle-contract.json
 .skills-lock.json
 .DS_Store
 *.log

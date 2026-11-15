@@ -2,94 +2,107 @@
   "skills": [
     {
       "path": "skills/grill-with-docs",
-      "classification": "repo-owned",
-      "source": "Sudigital/agent-cycle",
-      "commit": "v0.1.0",
-      "license": "MIT"
+      "classification": "adapted",
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
+      "license": "MIT",
+      "licenseFile": "LICENSE.txt"
     },
     {
       "path": "skills/handoff",
-      "classification": "repo-owned",
-      "source": "Sudigital/agent-cycle",
-      "commit": "v0.1.0",
-      "license": "MIT"
+      "classification": "adapted",
+      "source": "https://github.com/mattpocock/skills",
+      "commit": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
+      "license": "MIT",
+      "licenseFile": "LICENSE.txt"
     },
     {
       "path": "skills/grilling",
       "classification": "adapted",
       "source": "https://github.com/mattpocock/skills",
       "commit": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
-      "license": "MIT"
+      "license": "MIT",
+      "licenseFile": "LICENSE.txt"
     },
     {
       "path": "skills/tdd",
       "classification": "adapted",
       "source": "https://github.com/mattpocock/skills",
       "commit": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
-      "license": "MIT"
+      "license": "MIT",
+      "licenseFile": "LICENSE.txt"
     },
     {
       "path": "skills/code-review-and-quality",
       "classification": "adapted",
       "source": "https://github.com/addyosmani/agent-skills",
       "commit": "301b02b12bff98e4688e6984af6556802322bbde",
-      "license": "MIT"
+      "license": "MIT",
+      "licenseFile": "LICENSE.txt"
     },
     {
       "path": "skills/notion-cli",
       "classification": "adapted",
       "source": "https://github.com/makenotion/skills",
       "commit": "10e976aa591995fd60c75ef13beba1a8aa827fcc",
-      "license": "MIT"
+      "license": "MIT",
+      "licenseFile": "LICENSE.txt"
     },
     {
       "path": "skills/pentest",
       "classification": "adapted",
       "source": "https://github.com/usestrix/strix",
       "commit": "4719329d1c3eb0db796714397551945c514a2301",
-      "license": "Apache-2.0"
+      "license": "Apache-2.0",
+      "licenseFile": "LICENSE.txt"
     },
     {
       "path": "skills/diagnosing-bugs",
       "classification": "vendored",
       "source": "https://github.com/mattpocock/skills",
       "commit": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
-      "license": "MIT"
+      "license": "MIT",
+      "licenseFile": "LICENSE.txt"
     },
     {
       "path": "skills/improve-codebase-architecture",
       "classification": "vendored",
       "source": "https://github.com/mattpocock/skills",
       "commit": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
-      "license": "MIT"
+      "license": "MIT",
+      "licenseFile": "LICENSE.txt"
     },
     {
       "path": "skills/codebase-design",
       "classification": "vendored",
       "source": "https://github.com/mattpocock/skills",
       "commit": "4ae2317ddb22b046e26455e4f9c9b3aaaf62212d",
-      "license": "MIT"
+      "license": "MIT",
+      "licenseFile": "LICENSE.txt"
     },
     {
       "path": "skills/shadcn",
       "classification": "vendored",
       "source": "https://github.com/shadcn-ui/ui",
       "commit": "dd41d19e2f80ff6891951f7ced74c2c9a650b065",
-      "license": "MIT"
+      "license": "MIT",
+      "licenseFile": "LICENSE.txt"
     },
     {
       "path": "skills/frontend-design",
       "classification": "vendored",
       "source": "https://github.com/anthropics/skills",
       "commit": "2c5958ecac7cee2b583967a2c4981d0f4a75c579",
-      "license": "Apache-2.0"
+      "license": "Apache-2.0",
+      "licenseFile": "LICENSE.txt"
     },
     {
       "path": "skills/security-audit",
       "classification": "vendored",
       "source": "https://github.com/cloudflare/security-audit-skill",
       "commit": "c1c8a8c1471069fb0e188eeaff69b8e8db6564a8",
-      "license": "MIT"
+      "license": "MIT",
+      "licenseFile": "LICENSE.txt"
     }
   ]
 }

@@ -5,32 +5,47 @@ handoff, with tracker adapters and context-reset handoffs.
 
 The kit is prose, not a framework. It ships thirteen skills, a workflow-only
 contract, a tracker interface with a worked Notion adapter, and a copy-in
-installer that records exactly what it copied. There is no runtime dependency,
-no symlink, and no network access at install time.
+installer that records exactly what it copied. There are no runtime
+dependencies, the installer creates no symlinks, and it makes no network access
+at install time. It requires Node 20 or newer.
 
 ## Quick start
 
+A fresh project installs the skills and the contract they reference:
+
 ```bash
-# Into the omp layout
-npx github:Sudigital/agent-cycle#v0.1.0 install --target .omp/skills
-
-# Into the Claude Code layout
-npx github:Sudigital/agent-cycle#v0.1.0 install --target .claude/skills
-
-# Into both layouts under one project root
-npx github:Sudigital/agent-cycle#v0.1.0 install --target . --both
+npx github:Sudigital/agent-cycle#v0.1.1 install --target . --both --with-docs
 ```
 
-Each install writes `.skills-lock.json` beside the copied skills with the
-source, ref, commit, and a SHA-256 per file. Verify a copy at any time:
+That writes `.omp/skills/` and `.claude/skills/`, then copies `CLAUDE.md`,
+`docs/agents/`, and `adapters/` into the project root. It refuses to overwrite
+an existing `CLAUDE.md`, `docs/agents/`, or `adapters/`; merge those manually.
+
+Skills only, into an existing project:
 
 ```bash
-npx github:Sudigital/agent-cycle#v0.1.0 --check --target .omp/skills
+npx github:Sudigital/agent-cycle#v0.1.1 install --target .omp/skills
+npx github:Sudigital/agent-cycle#v0.1.1 install --target .claude/skills
+```
+
+The skills reference `docs/agents/` and `adapters/`; copy those from a checkout
+or use `--with-docs` on a fresh project. The installer does not create
+`AGENTS.md`; add the relative symlink if your host reads that name.
+
+Each skills install writes `.skills-lock.json`; `--with-docs` also writes
+`.agent-cycle-contract.json`. Both record the source, ref, the commit when
+installed from a git checkout, and a SHA-256 per file. Verify at any time:
+
+```bash
+npx github:Sudigital/agent-cycle#v0.1.1 --check --target .omp/skills
+npx github:Sudigital/agent-cycle#v0.1.1 --check --target . --both --with-docs
 ```
 
 `--check` recomputes the hashes and exits non-zero when a file is missing,
-changed, or the lock names a different source. Re-run `install` to repair the
-copy.
+changed, or the lock names a different source or tag. It refuses symlinked
+targets and paths. `--strict` also fails on files the lock does not name.
+Re-run `install` to repair the copy. The npx tarball has no git metadata, so its
+lock records the tag and hashes without a commit.
 
 ## What is in the box
 
@@ -43,8 +58,11 @@ copy.
 | `docs/agents/skills.md`  | Which stage loads which skill, and when.                                           |
 | `docs/agents/domain.md`  | Glossary and ADR conventions the skills consume.                                   |
 | `adapters/notion/`       | Worked adapter: `ntn` mechanics, schema, and status mapping.                       |
-| `provenance.json`        | One row per skill: path, classification, source, commit, license.                  |
+| `provenance.json`        | One row per skill: path, classification, source, commit, license, license file.    |
 | `UPSTREAM.md`            | The upstream pins behind the adapted and vendored skills.                          |
+
+Every adapted or vendored skill carries its upstream license text as
+`LICENSE.txt` in its skill directory.
 
 ## The cycle
 
@@ -91,8 +109,10 @@ roles. The Notion adapter is the reference, not a dependency.
 
 `provenance.json` classifies every skill as `repo-owned`, `adapted`, or
 `vendored`; `UPSTREAM.md` records the upstream commit for the latter two.
-`THIRD-PARTY-NOTICES.md` lists source, commit, and license per skill. Our own
-prose is MIT. Apache-2.0 components keep their `LICENSE.txt` and their notices.
+`THIRD-PARTY-NOTICES.md` lists source, commit, license, and license file per
+skill. Our own prose is MIT. Every adapted or vendored skill keeps its upstream
+license text, including the MIT copyright and permission notices and the full
+Apache-2.0 text.
 
 ## Contributing and security
 
@@ -101,7 +121,7 @@ reporting a vulnerability. This project follows the Contributor Covenant 2.1.
 
 ## AI credit
 
-The v0.1.0 release was authored with assistance from **omp** running
+The v0.1.1 release was authored with assistance from **omp** running
 **deepseek-flash**. Commits carry an `Assisted-by: omp (deepseek-flash)`
 trailer when that is true, and no other assistant is credited.
 

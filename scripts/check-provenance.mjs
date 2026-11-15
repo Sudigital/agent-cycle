@@ -11,8 +11,10 @@ const SKILLS = join(ROOT, "skills");
 const NOTICES = join(ROOT, "THIRD-PARTY-NOTICES.md");
 const PROVENANCE = join(ROOT, "provenance.json");
 const CLASSIFICATIONS = new Set(["repo-owned", "adapted", "vendored"]);
+const LICENSES = new Set(["MIT", "Apache-2.0"]);
 const FORBIDDEN = ["SU" + "DI-", "sudi" + "gital", "354" + "db605", "@" + "sudi" + "/"];
 const SCANNED_DIRS = ["skills", "adapters", "docs"];
+const SCANNED_FILES = ["CLAUDE.md"];
 const BINARY_EXTENSIONS = new Set([
   ".png",
   ".jpg",
@@ -88,6 +90,33 @@ function checkProvenance() {
         fail(`${row.path}: missing ${field}`);
       }
     }
+    if (!LICENSES.has(row.license)) {
+      fail(`${row.path}: license must be MIT or Apache-2.0`);
+      continue;
+    }
+    if (row.classification !== "repo-owned") {
+      if (typeof row.licenseFile !== "string" || row.licenseFile.trim() === "") {
+        fail(`${row.path}: missing licenseFile`);
+        continue;
+      }
+      if (row.licenseFile.includes("/") || row.licenseFile.includes("..")) {
+        fail(`${row.path}: licenseFile must be a file in the skill directory`);
+        continue;
+      }
+      const licensePath = join(SKILLS, name, row.licenseFile);
+      if (!existsSync(licensePath)) {
+        fail(`${row.path}: missing ${row.licenseFile}`);
+        continue;
+      }
+      const text = readFileSync(licensePath, "utf8");
+      if (row.license === "MIT") {
+        if (!/copyright/i.test(text) || !/permission is hereby granted/i.test(text)) {
+          fail(`${row.path}: ${row.licenseFile} is not a complete MIT text`);
+        }
+      } else if (!/apache license/i.test(text) || !/version 2\.0/i.test(text)) {
+        fail(`${row.path}: ${row.licenseFile} is not a complete Apache-2.0 text`);
+      }
+    }
   }
 
   for (const name of dirs) {
@@ -101,22 +130,26 @@ function checkProvenance() {
 
   const notices = existsSync(NOTICES) ? readFileSync(NOTICES, "utf8") : "";
   if (!notices) fail("THIRD-PARTY-NOTICES.md is missing or empty");
+  const upstreamPath = join(ROOT, "UPSTREAM.md");
+  const upstream = existsSync(upstreamPath) ? readFileSync(upstreamPath, "utf8") : "";
+  if (!upstream) fail("UPSTREAM.md is missing or empty");
+
   for (const [name, row] of rows) {
-    if (row.license === "MIT") continue;
-    if (typeof row.license !== "string" || row.license.trim() === "") continue;
-    if (!notices.includes(`\`${name}\``)) {
-      fail(`THIRD-PARTY-NOTICES.md does not mention non-MIT skill ${name}`);
-    }
+    if (!notices.includes(`\`${name}\``)) fail(`THIRD-PARTY-NOTICES.md does not mention ${name}`);
     if (!notices.toLowerCase().includes(row.license.toLowerCase())) {
       fail(`THIRD-PARTY-NOTICES.md does not state ${row.license} for ${name}`);
     }
-    const licenseFile = join(SKILLS, name, "LICENSE.txt");
-    if (!existsSync(licenseFile)) {
-      fail(`skills/${name} is ${row.license} but has no LICENSE.txt`);
-    }
+    if (upstream && !upstream.includes(`| \`${name}\``)) fail(`UPSTREAM.md does not mention ${name}`);
   }
 
   return rows;
+}
+
+function scanText(path, label) {
+  const text = readFileSync(path, "utf8").toLowerCase();
+  for (const needle of FORBIDDEN) {
+    if (text.includes(needle.toLowerCase())) fail(`forbidden string "${needle}" in ${label}`);
+  }
 }
 
 function checkForbidden() {
@@ -125,13 +158,13 @@ function checkForbidden() {
     if (!existsSync(full)) continue;
     for (const rel of walk(full)) {
       if (BINARY_EXTENSIONS.has(rel.slice(rel.lastIndexOf(".")))) continue;
-      const text = readFileSync(join(full, rel), "utf8").toLowerCase();
-      for (const needle of FORBIDDEN) {
-        if (text.includes(needle.toLowerCase())) {
-          fail(`forbidden string "${needle}" in ${dir}/${rel}`);
-        }
-      }
+      scanText(join(full, rel), `${dir}/${rel}`);
     }
+  }
+  for (const rel of SCANNED_FILES) {
+    const full = join(ROOT, rel);
+    if (!existsSync(full)) fail(`${rel} is missing`);
+    else scanText(full, rel);
   }
 }
 
@@ -140,7 +173,8 @@ function summary(rows) {
   for (const [name, row] of rows) {
     const classification = String(row.classification ?? "?");
     const license = String(row.license ?? "?");
-    console.log(`  ${name.padEnd(32)} ${classification.padEnd(11)} ${license}`);
+    const licenseFile = row.licenseFile ? ` ${row.licenseFile}` : "";
+    console.log(`  ${name.padEnd(32)} ${classification.padEnd(11)} ${`${license}${licenseFile}`}`);
   }
   const total = [...walk(SKILLS)].filter((rel) => rel.endsWith("SKILL.md")).length;
   console.log(`skills: ${total}`);

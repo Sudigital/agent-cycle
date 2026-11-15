@@ -1,7 +1,7 @@
 # Contributing
 
-Thanks for helping make `agent-cycle` better. This repository is prose plus two
-small Node scripts; the bar is accuracy, not volume.
+Thanks for helping make `agent-cycle` better. This repository is prose plus a
+small Node CLI and validation scripts; the bar is accuracy, not volume.
 
 ## Before you start
 
@@ -30,19 +30,23 @@ small Node scripts; the bar is accuracy, not volume.
 - Keep the prose harness-neutral. No product names, ticket prefixes, board ids,
   package scopes, or workspace paths from a consumer repository.
 - If the skill is adapted or vendored, update its row in `provenance.json`,
-  `UPSTREAM.md`, and `THIRD-PARTY-NOTICES.md` together. A missing license or
-  commit fails CI.
-- If you add a skill, add its directory, a provenance row, an upstream row, and
-  a notice row. Apache-2.0 material keeps its `LICENSE.txt`.
+  `UPSTREAM.md`, and `THIRD-PARTY-NOTICES.md` together, and add its upstream
+  license text as `LICENSE.txt` in the skill directory. A missing license,
+  commit, or notice fails CI.
+- If you add a skill, add its directory, a provenance row with `licenseFile`, an
+  upstream row, and a notice row. Every adapted or vendored skill keeps its
+  upstream license text; Apache-2.0 material keeps the full text.
 
 ## Changing the installer
 
-`bin/agent-cycle.mjs` is dependency-free and must stay that way. It may read the
-package tree, copy files, and hash them; it must not use the network, create
-symlinks, or mutate anything outside `--target`.
+`bin/agent-cycle.mjs` and `lib/` are dependency-free and must stay that way. The
+installer may read the package tree, copy files, and hash them; it must not use
+the network, create symlinks, or mutate anything outside `--target`. It refuses
+symlinked targets and destination paths, and it validates every lock path
+before writing or pruning.
 
 The lock is a contract. Bump the package minor version if you change its shape,
-and update `--check` and the CI fixture in the same change.
+and update `--check`, the contract lock, and the CI fixtures in the same change.
 
 ## Checks
 
@@ -50,7 +54,9 @@ and update `--check` and the CI fixture in the same change.
 node scripts/check-provenance.mjs
 node bin/agent-cycle.mjs install --target /tmp/agent-cycle-fixture
 node bin/agent-cycle.mjs --check --target /tmp/agent-cycle-fixture
-npx oxfmt@0.47.0 --check bin scripts .github package.json .oxfmtrc.json
+node bin/agent-cycle.mjs install --target /tmp/agent-cycle-project --both --with-docs
+node bin/agent-cycle.mjs --check --target /tmp/agent-cycle-project --both --with-docs
+npx oxfmt@0.47.0 --check .
 ```
 
 CI runs the same commands. A formatter pass must never rewrap skill prose:

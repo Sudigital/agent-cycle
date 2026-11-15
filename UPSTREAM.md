@@ -1,12 +1,13 @@
 # Upstream lineage
 
 This file records where each skill came from. It is lineage, not an update
-procedure: skills are edited in place and the provenance lock bounds drift.
+procedure: skills are edited in place, and the installer's lock detects drift
+in a consumer's copy.
 
 | Skill                           | Classification | Source                                                                                | Commit                                     | Upstream path                                      |
 | ------------------------------- | -------------- | ------------------------------------------------------------------------------------- | ------------------------------------------ | -------------------------------------------------- |
-| `grill-with-docs`               | repo-owned     | this repository                                                                       | `v0.1.0`                                   | —                                                  |
-| `handoff`                       | repo-owned     | this repository                                                                       | `v0.1.0`                                   | —                                                  |
+| `grill-with-docs`               | adapted        | [mattpocock/skills](https://github.com/mattpocock/skills)                             | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | `skills/engineering/grill-with-docs`               |
+| `handoff`                       | adapted        | [mattpocock/skills](https://github.com/mattpocock/skills)                             | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | `skills/productivity/handoff`                      |
 | `grilling`                      | adapted        | [mattpocock/skills](https://github.com/mattpocock/skills)                             | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | `skills/productivity/grilling`                     |
 | `tdd`                           | adapted        | [mattpocock/skills](https://github.com/mattpocock/skills)                             | `4ae2317ddb22b046e26455e4f9c9b3aaaf62212d` | `skills/engineering/tdd`                           |
 | `code-review-and-quality`       | adapted        | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)                 | `301b02b12bff98e4688e6984af6556802322bbde` | `skills/code-review-and-quality`                   |
@@ -21,8 +22,9 @@ procedure: skills are edited in place and the provenance lock bounds drift.
 
 `repo-owned` means the prose was authored for this kit. `adapted` means upstream
 prose was changed to fit the harness-neutral loop. `vendored` means the skill is
-carried with only the path and packaging adjustments the kit requires; the
-Apache-2.0 skills keep their `LICENSE.txt`.
+carried with only the path and packaging adjustments the kit requires. Every
+adapted or vendored skill keeps its upstream license text as `LICENSE.txt`;
+`provenance.json` records the source, pin, and license file.
 
 Skills are discovered one level under `skills/` (`<skill>/SKILL.md`). `skills/`
 and `adapters/` are excluded from the formatter (`.oxfmtrc.json`

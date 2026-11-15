@@ -30,9 +30,11 @@ will credit you in the advisory unless you ask otherwise.
 
 This repository ships prose, a copy-in installer, and validation scripts. The
 installer reads the package tree and writes only to `--target`; it performs no
-network access. The skills instruct agents to run commands, so treat a
-malicious skill as code execution: review changes to `skills/` and
-`adapters/` before installing a new tag.
+network access. It refuses symlinked targets and destination paths, and rejects
+lock entries that are absolute or contain `..`, so a hostile lock cannot escape
+the target. The skills instruct agents to run commands, so treat a malicious
+skill as code execution: review changes to `skills/` and `adapters/` before
+installing a new tag.
 
 `skills/pentest` wraps an external tool and requires explicit authorization for
 every target. The repository never authorizes a scan; the operator does.

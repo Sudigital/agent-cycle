@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 20
 
-      - name: Provenance and forbidden strings
+      - name: Provenance, licenses, and forbidden strings
         run: node scripts/check-provenance.mjs
 
       - name: Install into a fixture
@@ -29,10 +29,62 @@ jobs:
       - name: Verify the fixture
         run: node bin/agent-cycle.mjs --check --target "$RUNNER_TEMP/skills"
 
+      - name: Reject a tampered copy
+        run: |
+          echo "tampered" >> "$RUNNER_TEMP/skills/tdd/SKILL.md"
+          if node bin/agent-cycle.mjs --check --target "$RUNNER_TEMP/skills"; then
+            echo "tampered copy passed verification"; exit 1
+          fi
+
       - name: Verify --both layout
         run: |
           node bin/agent-cycle.mjs install --target "$RUNNER_TEMP/project" --both
           node bin/agent-cycle.mjs --check --target "$RUNNER_TEMP/project" --both
 
-      - name: Format governance files and scripts
+      - name: Install the contract into a fresh project
+        run: |
+          node bin/agent-cycle.mjs install --target "$RUNNER_TEMP/project-docs" --both --with-docs
+          test -f "$RUNNER_TEMP/project-docs/CLAUDE.md"
+          test -f "$RUNNER_TEMP/project-docs/docs/agents/tracker.md"
+          test -f "$RUNNER_TEMP/project-docs/adapters/notion/schema.md"
+          node bin/agent-cycle.mjs --check --target "$RUNNER_TEMP/project-docs" --both --with-docs
+          echo "tampered" >> "$RUNNER_TEMP/project-docs/docs/agents/tracker.md"
+          if node bin/agent-cycle.mjs --check --target "$RUNNER_TEMP/project-docs" --both --with-docs; then
+            echo "tampered contract passed verification"; exit 1
+          fi
+
+      - name: Refuse a lock that escapes the target
+        run: |
+          mkdir -p "$RUNNER_TEMP/mal/outside" "$RUNNER_TEMP/mal/target"
+          echo keep > "$RUNNER_TEMP/mal/outside/victim"
+          printf '{"source":"x","ref":"x","commit":null,"files":{"../../outside/victim":"x"}}\n' > "$RUNNER_TEMP/mal/target/.skills-lock.json"
+          if node bin/agent-cycle.mjs install --target "$RUNNER_TEMP/mal/target"; then
+            echo "escaping lock was accepted"; exit 1
+          fi
+          test "$(cat "$RUNNER_TEMP/mal/outside/victim")" = keep
+
+      - name: Refuse symlinked destinations
+        run: |
+          mkdir -p "$RUNNER_TEMP/sym/tdd"
+          echo keep > "$RUNNER_TEMP/sym/victim"
+          ln -s ../victim "$RUNNER_TEMP/sym/tdd/SKILL.md"
+          if node bin/agent-cycle.mjs install --target "$RUNNER_TEMP/sym"; then
+            echo "symlinked destination was accepted"; exit 1
+          fi
+          test "$(cat "$RUNNER_TEMP/sym/victim")" = keep
+          ln -s "$RUNNER_TEMP/skills" "$RUNNER_TEMP/skills-link"
+          if node bin/agent-cycle.mjs --check --target "$RUNNER_TEMP/skills-link"; then
+            echo "symlinked target was accepted"; exit 1
+          fi
+
+      - name: Verify the packed tarball
+        run: |
+          TARBALL=$(npm pack --silent)
+          mkdir -p "$RUNNER_TEMP/pack"
+          tar -xzf "$TARBALL" -C "$RUNNER_TEMP/pack"
+          node "$RUNNER_TEMP/pack/package/bin/agent-cycle.mjs" install --target "$RUNNER_TEMP/packed" --both --with-docs
+          node "$RUNNER_TEMP/pack/package/bin/agent-cycle.mjs" --check --target "$RUNNER_TEMP/packed" --both --with-docs
+          rm -f "$TARBALL"
+
+      - name: Format governance files, scripts, and modules
         run: npx --yes oxfmt@0.47.0 --check .

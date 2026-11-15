@@ -5,6 +5,33 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-11-15
+
+### Added
+
+- `--with-docs` installs `CLAUDE.md`, `docs/agents/`, and `adapters/` into a
+  fresh project root alongside the skills, with a separate
+  `.agent-cycle-contract.json` lock. It refuses to overwrite existing paths.
+- `--strict` makes `--check` fail on any file the lock does not name.
+- Every adapted or vendored skill now carries its upstream license text as
+  `LICENSE.txt`; the provenance checker requires a complete MIT or Apache-2.0
+  text and a matching notice.
+- CI now proves tamper detection, escaping lock rejection, symlink refusal, and
+  installation from the packed tarball.
+
+### Fixed
+
+- The installer confines every lock path to `--target`, rejects absolute and
+  `..` entries before writing, refuses symlinked targets and destination paths,
+  and never follows a symlink when writing or pruning.
+- `grill-with-docs` and `handoff` are recorded as adapted from
+  `mattpocock/skills` at the pinned commit instead of repo-owned, matching the
+  upstream lineage and MIT notice.
+- The README quick start installs the contract the skills reference, and the
+  commit caveat for tarball installs is documented.
+
+[0.1.1]: https://github.com/Sudigital/agent-cycle/releases/tag/v0.1.1
+
 ## [0.1.0] - 2026-11-15
 
 ### Added
