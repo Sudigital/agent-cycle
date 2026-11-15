@@ -1,0 +1,57 @@
+name: Bug report
+description: Report a broken skill, installer, or CI check.
+title: "fix: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Do not include secrets, tokens, or private board
+        ids. For a security issue, use SECURITY.md instead.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: The tag or commit you installed.
+      placeholder: v0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - skill content
+        - installer / lock
+        - provenance / notices
+        - CI
+        - documentation
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: The exact command and its output.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Host, Node version, target layout, and anything else relevant.

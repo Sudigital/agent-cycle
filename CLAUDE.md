@@ -1,0 +1,179 @@
+# Agent instructions
+
+> **Portable workflow contract.** Five-stage cycle: Plan → Task → Build →
+> Verify → Reset.
+>
+> **This file is the contract.** `AGENTS.md` is a relative symlink to it; edit
+> only here. Never write into the symlink and never replace it with a copy.
+> A consumer may replace the placeholder values below with its own overlay,
+> add product invariants, and keep this file's cycle intact.
+
+## Configuration
+
+Set these once per consumer. The skills read them from this file and the
+environment; no skill hard-codes a board id, a ticket prefix, or a command.
+
+| Placeholder              | Meaning                                                                  | Example                     |
+| ------------------------ | ------------------------------------------------------------------------ | --------------------------- |
+| `<TICKET_PREFIX>`        | Human-readable ticket prefix                                             | `AC`                        |
+| `<TRACKER_DATA_SOURCE>`  | Board or data-source identifier, preferably an environment variable name | `NOTION_TASKS_DATA_SOURCE`  |
+| `<BASE_BRANCH>`          | Branch every task branch is cut from                                     | `main`                      |
+| `<TEST_COMMAND>`         | Narrow test command for one file                                         | `npm test -- <file>`        |
+| `<TYPECHECK_COMMAND>`    | Typecheck command                                                        | `tsc --noEmit`              |
+| `<LINT_COMMAND>`         | Scoped lint command                                                      | `npx oxlint <paths>`        |
+| `<FORMAT_COMMAND>`       | Format command                                                           | `npx oxfmt --write <paths>` |
+| `<FORMAT_CHECK_COMMAND>` | Non-mutating format check                                                | `npx oxfmt --check <paths>` |
+
+## Read first
+
+- Read the project glossary (`GLOSSARY.md`) before exploring source; if it does
+  not exist, proceed without it.
+- Never read build output, dependency trees, coverage, or lockfiles. They are
+  generated state.
+- Search the codebase only when the glossary and the diff leave a real gap.
+
+## The 5-stage cycle
+
+One request, five stages, in this order. Do not skip a stage; do not run two at
+once. Print the cycle as todos once at session start (`Plan`, `Task`, `Build`,
+`Verify`, `Reset`) and keep them current. In `Plan`, one todo per interview
+round plus "docs + ADR approved".
+
+### 1. Plan — `skill://grill-with-docs`
+
+Interview the request until the work is unambiguous. The plan must name:
+
+- the goal and the explicit non-goals;
+- the files and workspaces that change;
+- the contracts that move (types, routes, queries, components);
+- the test that proves it works;
+- the rollback, or the reason none is needed.
+
+Every interview round is one interactive form: one field per question, the
+recommendation pre-selected, so "yes" accepts it. A host without a form tool
+falls back to numbered questions with a recommendation. Prose-only questions
+are a bug. Ask the whole frontier of settled-prerequisite questions per round,
+then wait.
+
+No code before the plan is agreed. If the request already carries all five,
+say so in one line and move on.
+
+### 2. Task — one ticket, then a branch
+
+No Build before the ticket exists; no branch before it either. The tracker
+adapter skill is the only transport: search the board, show the candidates, one
+form for create-vs-reuse, then create exactly one ticket, set it to the
+adapter's planned state, append the `Plan` block, and cut
+`<type>/<TICKET_PREFIX>-<n>` from `origin/<BASE_BRANCH>` on a clean tree.
+`docs/agents/tracker.md` is the interface, never a script to run.
+
+If the adapter cannot run, stop and report: never `curl`, never fabricate a
+ticket, never create the branch. Write the approved ADRs and glossary now, then
+close this session with the Build handoff.
+
+### 3. Build — `skill://tdd` (fresh context)
+
+Red, green, refactor, in the smallest workspace that owns the change.
+
+- Write the failing test first. No test, no feature.
+- Run the one test file, `<TYPECHECK_COMMAND>`, and scoped `<LINT_COMMAND>` /
+  `<FORMAT_COMMAND>`; the full suite and the release build belong to the user.
+- Watch it fail for the right reason, make the smallest change that passes, then
+  refactor with the test green.
+- The seams are the ticket's plan; do not re-negotiate them mid-run.
+- Do not mock the unit under test.
+- Never broaden the ticket: no drive-by refactors, no new abstractions "while
+  here".
+
+### 4. Verify — `skill://code-review-and-quality` (fresh context)
+
+One pass over `git diff` only. Do not review the whole repository, and do not
+re-run the review to confirm findings.
+
+Check, in order: correctness, readability, architecture, security,
+performance. Label each finding Required, Recommended, or Optional. Report the
+findings; do not silently rewrite the change. Post them to the pull request when
+one exists, otherwise to the handoff document.
+
+### 5. Reset — `skill://handoff` (fresh context)
+
+Capture the state before context runs out: what shipped, what is open, the
+exact next command. Then stop. A handoff is a deliverable, not a failure.
+
+## Context and handoffs
+
+Plan and Task share one session. Build, Verify, and Reset each start in a fresh
+session; the only link between them is one handoff per ticket. The tracker is
+not part of that chain: the adapter skill is the only transport, and
+`docs/agents/tracker.md` is the interface.
+
+1. **Boundaries.** [interview → approval → ticket/branch] is one session.
+   Build, Verify, and Reset each start fresh; only those three boundaries write
+   a handoff.
+2. **File.** `$TMPDIR/<ticket>-handoff.md` (`/tmp` when `TMPDIR` is unset),
+   `<ticket>` the `<TICKET_PREFIX>-<n>` in the branch name. One file per
+   ticket, overwritten at every boundary — never one per step.
+3. **Format.** At most 40 lines: phase; ticket URL; branch; HEAD
+   (`git rev-parse HEAD`); what landed; exact next command; failing test or
+   repro; files touched; open risks; invariants to keep; suggested skills.
+   Reference plans, ADRs, and tickets by path or URL; never restate them.
+4. **Start.** The branch is the task marker. Read it at session start; if the
+   handoff exists, read it and compare its HEAD with `git rev-parse HEAD` —
+   equal means continue from the next command. No handoff means start
+   immediately.
+5. **Staleness.** A HEAD mismatch makes the handoff stale: re-read
+   `git diff <handoff-head>..HEAD` before trusting it.
+6. **No mid-phase write.** If the next phase continues in the same context, skip
+   the write; it duplicates context and costs tokens.
+7. **Never commit the handoff.** Generated docs stay out of the repository.
+8. **Token discipline.** Run the narrowest check (one test file, scoped
+   lint/format), search and range-read before opening files, never re-read
+   content already in context, and never re-run a check to confirm it.
+
+## Tracker
+
+- The ticket is the whole record: plan, decisions, ADR links. Later skills
+  append comments and move status — planned at creation, in-progress when Build
+  starts, review while the change is open, done when it merges.
+- `<BASE_BRANCH>` is the integration branch and the base of every task change.
+- Commit `type(<TICKET_PREFIX>-<n>): description`; one ticket, one commit.
+- Run the whole tracker through the adapter skill — page reads, creation,
+  comments, and status moves — never a hand-rolled API call. Interface
+  `docs/agents/tracker.md`; worked adapter `adapters/notion/`.
+
+## Pull requests
+
+- Base `<BASE_BRANCH>`; title `type(<TICKET_PREFIX>-<n>): description`.
+- The body carries `## Risk`, `## Standards`, and `## Spec`.
+- Merge only after the checks are green, with
+  `gh pr merge <n> --squash --delete-branch`. Never `--merge` or `--rebase` for
+  ticket pull requests unless the consumer's overlay explicitly allows it.
+
+## Commands
+
+- **Isolate to the active workspace.** Run the package or workspace script, not
+  a root-wide task, when one workspace is in scope.
+- **Tests run single-run.** Never watch mode.
+- **Typecheck:** `<TYPECHECK_COMMAND>`, or the workspace's `typecheck` script.
+  Report the exact command you ran.
+- A dev server is the user's: hand off the command and the click-path, never
+  start it.
+- Never declare a change verified from a build artifact or a cached result.
+- Run the narrowest check that covers the change: one test file, scoped lint and
+  format. A root-wide check dumps context you then pay for on every turn.
+- A change that touches only docs or config skips red/green:
+  `<FORMAT_CHECK_COMMAND>` and scoped lint on the touched paths are its test.
+
+## Decisions and ADRs
+
+A decision becomes an ADR only when all three hold: hard to reverse, surprising
+without context, and the result of a real trade-off. Write
+`docs/adr/NNNN-kebab-title.md` (next number, never reused) with `Status`,
+`Date`, `Context`, `Decision`, `Alternatives`, `Consequences`, and add a row to
+`docs/adr/README.md`. A reversed decision is marked `Superseded by NNNN`, never
+deleted.
+
+Everything else decided stays in the plan and the ticket's `Plan` block.
+`GLOSSARY.md` is vocabulary only: no implementation decisions, no spec, no
+notes. Product invariants belong in the consumer's overlay, not in this
+portable contract.

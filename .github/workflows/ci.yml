@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: provenance, installer, format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Provenance and forbidden strings
+        run: node scripts/check-provenance.mjs
+
+      - name: Install into a fixture
+        run: node bin/agent-cycle.mjs install --target "$RUNNER_TEMP/skills"
+
+      - name: Verify the fixture
+        run: node bin/agent-cycle.mjs --check --target "$RUNNER_TEMP/skills"
+
+      - name: Verify --both layout
+        run: |
+          node bin/agent-cycle.mjs install --target "$RUNNER_TEMP/project" --both
+          node bin/agent-cycle.mjs --check --target "$RUNNER_TEMP/project" --both
+
+      - name: Format governance files and scripts
+        run: npx --yes oxfmt@0.47.0 --check .

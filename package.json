@@ -1,0 +1,53 @@
+{
+  "name": "agent-cycle",
+  "version": "0.1.0",
+  "description": "A portable agent skill kit: interview -> approval -> ticket -> TDD -> review -> handoff, with tracker adapters and context-reset handoffs.",
+  "keywords": [
+    "agent-skills",
+    "agents",
+    "ai-agents",
+    "claude-code",
+    "tdd",
+    "workflow"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sudigital/agent-cycle.git"
+  },
+  "bin": {
+    "agent-cycle": "bin/agent-cycle.mjs"
+  },
+  "files": [
+    "adapters",
+    "bin",
+    "docs",
+    "scripts",
+    "skills",
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "CLAUDE.md",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    "README.md",
+    "SECURITY.md",
+    "THIRD-PARTY-NOTICES.md",
+    "UPSTREAM.md",
+    "provenance.json"
+  ],
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/check-provenance.mjs && node bin/agent-cycle.mjs --check --target .tmp-skills",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
+    "provenance": "node scripts/check-provenance.mjs",
+    "test:install": "node bin/agent-cycle.mjs install --target .tmp-skills && node bin/agent-cycle.mjs --check --target .tmp-skills"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.47.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

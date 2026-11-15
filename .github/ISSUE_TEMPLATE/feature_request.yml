@@ -1,0 +1,41 @@
+name: Feature request
+description: Propose a skill, adapter, or contract change.
+title: "feat: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the problem before the solution. Contract and lock-format
+        changes need a short design discussion in the issue.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is hard or impossible today, and for whom?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: The smallest change that solves it.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: input
+    id: license
+    attributes:
+      label: Upstream source and license
+      description: Required for a new or adapted skill. Leave blank for original prose.
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: This change can be made without breaking the lock format.
+        - label: This change adds or modifies a skill, so provenance and notices must move with it.
