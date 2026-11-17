@@ -57,6 +57,8 @@ lock records the tag and hashes without a commit.
 | `docs/agents/tracker.md` | The tracker interface every adapter implements.                                    |
 | `docs/agents/skills.md`  | Which stage loads which skill, and when.                                           |
 | `docs/agents/domain.md`  | Glossary and ADR conventions the skills consume.                                   |
+| `docs/agents/review.md`  | CI gate, human risk lane, and generated-artefact review policy.                    |
+| `docs/agents/prompt.md`  | Copy-paste prompt for running the whole cycle end to end.                          |
 | `adapters/notion/`       | Worked adapter: `ntn` mechanics, schema, and status mapping.                       |
 | `provenance.json`        | One row per skill: path, classification, source, commit, license, license file.    |
 | `UPSTREAM.md`            | The upstream pins behind the adapted and vendored skills.                          |
@@ -69,12 +71,26 @@ Every adapted or vendored skill carries its upstream license text as
 1. **Plan** — interview until the work is unambiguous; settle the seams.
 2. **Task** — one tracker ticket, then a branch named after it.
 3. **Build** — red, green, refactor, in the smallest workspace.
-4. **Verify** — one review pass over the diff, findings labeled.
-5. **Reset** — a 40-line handoff with the exact next command.
+4. **Verify** — one review pass over the diff, findings labeled; the verdict is
+   Approve or Request changes, and the risk lane in `docs/agents/review.md`
+   decides who must look.
+5. **Reset** — a 40-line handoff with the active todo and the exact next
+   command.
 
 Build, Verify, and Reset each run in a fresh context. The only link between
 them is one handoff per ticket; the tracker is the record, not the transport
-between sessions.
+between sessions. The todo list is the shared cursor: print it at session start
+and after every status change, and keep the active stage visible in each reply.
+
+A merge needs the approving verdict, green checks, and the user's explicit
+approval; the agent never self-merges.
+
+## Run it from one prompt
+
+Copy the prompt in [`docs/agents/prompt.md`](docs/agents/prompt.md) into a fresh
+agent session, fill the placeholders, and send it. It carries the work from Plan
+to Reset and stops only at the plan approval, the merge approval, or a real
+blocker.
 
 ## Skills
 

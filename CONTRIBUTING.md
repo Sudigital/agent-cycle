@@ -48,6 +48,23 @@ before writing or pruning.
 The lock is a contract. Bump the package minor version if you change its shape,
 and update `--check`, the contract lock, and the CI fixtures in the same change.
 
+## Upstreaming a consumer change
+
+A consumer copies the prose and may edit its copy in place; that copy is a fork,
+not a lock. When the fork carries a generic improvement, port it here first and
+reinstall. Never leave the canonical text behind the consumer.
+
+1. Compare: `diff -rq skills <consumer>/.omp/skills`,
+   `diff -u CLAUDE.md <consumer>/CLAUDE.md`, and
+   `diff -rq docs/agents <consumer>/docs/agents`.
+2. Classify every difference as a consumer substitution (ticket prefix, base
+   branch, workspace commands, product invariants) or a generic improvement.
+   Port only the second kind; a product name here fails
+   `check-provenance.mjs`.
+3. Reinstall the consumer from the new revision and re-apply its overlay. Its
+   `UPSTREAM.md` records the lineage; there is no lock to merge.
+4. Run the checks below on both sides.
+
 ## Checks
 
 ```bash

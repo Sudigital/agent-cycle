@@ -14,12 +14,13 @@ The file is `$TMPDIR/<ticket>-handoff.md` (`/tmp` when `TMPDIR` is unset), `<tic
 
 At most 40 lines, in order:
 
-- **Phase** — the phase that just finished and the one that starts.
+- **Phase** — the phase that just finished and the one that starts; mirror the active todo.
 - **Ticket** — the tracker ticket URL.
 - **Branch** — `git rev-parse --abbrev-ref HEAD`.
 - **HEAD** — `git rev-parse HEAD`; the next phase compares this.
 - **What landed** — one line per behavior, not per file.
-- **Next command** — the exact command the fresh session runs first.
+- **Next step** — the first unticked plan item and its seam; the full plan stays on the ticket.
+- **Next command** — one executable command the fresh session runs first, or `none`.
 - **Failing test or repro** — the command and its current result, or `none`.
 - **Files touched** — the paths the next phase will see in `git diff`.
 - **Open risks** — what may break, and why it is not yet fixed.
@@ -33,10 +34,10 @@ Reference plans, ADRs, and issues by path or URL. Never restate them. Redact sec
 The next phase does this before anything else:
 
 - Read the branch. A branch that names `<PREFIX>-<n>` makes `<ticket>` that id.
-- Read `$TMPDIR/<ticket>-handoff.md`. Absent: start immediately, do not write a summary.
-- Present: compare its **HEAD** with `git rev-parse HEAD`. Equal means continue from **Next command**. Different means the handoff is stale: read `git diff <handoff-head>..HEAD` first, then continue.
-- Never read the previous transcript: this file is the whole context.
+- Read `$TMPDIR/<ticket>-handoff.md` before anything else. Absent: start immediately, do not write a summary.
+- Print the active todo stage, then compare the handoff's **HEAD** with `git rev-parse HEAD`. Equal means run **Next command**; read nothing beyond what it names. Different means the handoff is stale: read `git diff --stat <handoff-head>..HEAD` and only the files it names that change the next command.
+- Never read the previous transcript, the full plan, or the whole ticket to reconstruct context. The handoff plus the next command is the whole context.
 
 ## Finish
 
-Overwrite the same file for the next phase, after the phase's own checks pass. Never commit it: it lives in the temp directory, not the repo. When a PR is open and green, the next command is `gh pr merge <n> --squash --delete-branch` after `gh pr checks <n>` — never `--merge`.
+Overwrite the same file for the next phase, after the phase's own checks pass. Never commit it: it lives in the temp directory, not the repo. When a PR is open and green, write **Next command** as `gh pr checks <n>`, record the review verdict, and stop for the user's explicit merge approval. Do not put `gh pr merge` in the handoff until the user approves; the merge gate is `CLAUDE.md` → **Pull requests**.

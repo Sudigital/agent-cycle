@@ -27,7 +27,8 @@ such as `NOTION_TASKS_DATA_SOURCE`.
 **Effort level:** Small | Medium | Large
 
 `Points` is mandatory on every task in the reference board; a consumer may drop
-it, but must update this schema and its form defaults together. A `Docs` page is
+it, but must update this schema and its form defaults together. `Description` is
+mandatory: one or two sentences naming the problem and the fix. A `Docs` page is
 documentation, not work: `Status: Done`, no branch. A `Spec` or `Map` page keeps
 its `<PREFIX>-<n>` id so branches and PRs still resolve.
 
@@ -52,11 +53,24 @@ The branch `<type>/<PREFIX>-<n>` is the marker; nothing is stamped into `.git`.
 A resumed session reads the branch and keys the handoff as
 `$TMPDIR/<ticket>-handoff.md`.
 
-## Plan block
+## Ticket body
 
-One `heading_2` titled `Plan`, then one `to_do` block per step. It is the
-ticket's plan, not a copy of the conversation; Build ticks each step as it
-lands and Verify reads the remaining ones.
+`Description` is a property; the rest is page blocks. The interface and the
+ceiling are `docs/agents/tracker.md`; this page maps them to Notion:
+
+- `## Problem` — optional evidence paragraph.
+- `## Acceptance criteria` — one bullet per observable condition.
+- `## Verify` — the exact command or click path.
+- `## Plan` — one `heading_2` titled `Plan`, then one `to_do` block per step.
+- `## Decisions` — optional bullets for what did not earn an ADR.
+- `## Close` — at merge: PR link, squash SHA, date, branch deleted, follow-ups.
+
+Build ticks each step as it lands; Verify reads the remaining ones.
+
+## Archive
+
+PATCH `{"in_trash": true}`; `archived` is the legacy field and new writes use
+`in_trash`. Never hard-delete a page.
 
 ## Spec and map pages
 

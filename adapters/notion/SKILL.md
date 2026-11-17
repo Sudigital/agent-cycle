@@ -17,11 +17,12 @@ the first board call.
 | --- | --- |
 | `find(query)` | Query the tasks data source with a `Task name` contains-filter, or an `ID` equals-filter for one ticket. |
 | `read(id)` | `ntn pages get <page-id>`. The page body is the whole record. |
-| `create(ticket)` | `POST v1/pages` with the properties in [schema.md](schema.md). |
+| `create(ticket)` | `POST v1/pages` with the properties in [schema.md](schema.md), including `Description`. |
+| `appendBody(id, markdown)` | `ntn pages update <page-id> --content <markdown>` (append). |
 | `appendPlan(id, steps)` | Append a `Plan` heading and one to-do block per step to the page. |
 | `comment(id, markdown)` | `POST v1/comments` with `{"parent":{"page_id":...},"markdown":...}`. |
 | `setStatus(id, status)` | `PATCH v1/pages/<id>` with `{"properties":{"Status":{"status":{"name":...}}}}`. |
-| `archive(id)` | `PATCH v1/pages/<id>` with `{"archived":true}`. Never hard-delete. |
+| `archive(id)` | `PATCH v1/pages/<id>` with `{"in_trash":true}`. Never hard-delete. |
 | `claim(id)` | Set the `Assignee` people property. |
 
 The ticket number is the `ID` unique-id property. The work marker is

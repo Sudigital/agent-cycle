@@ -13,7 +13,7 @@ description: >-
 # Notion CLI adapter
 
 The CLI is self-documenting and is this adapter's only transport. The
-interface — operations, lifecycle, and the `Plan` block — is
+interface — operations, lifecycle, and the ticket body — is
 `docs/agents/tracker.md`. This file supplies the Notion mechanics, never the
 contract.
 
@@ -91,6 +91,7 @@ ntn api v1/pages -d "{
   \"parent\": {\"data_source_id\": \"$NOTION_TASKS_DATA_SOURCE\"},
   \"properties\": {
     \"Task name\": {\"title\": [{\"text\": {\"content\": \"Title\"}}]},
+    \"Description\": {\"rich_text\": [{\"text\": {\"content\": \"Problem and fix.\"}}]},
     \"Status\": {\"status\": {\"name\": \"Planning\"}},
     \"Task type\": {\"multi_select\": [{\"name\": \"Task\"}]},
     \"Priority\": {\"select\": {\"name\": \"High\"}},
@@ -154,7 +155,7 @@ ntn workers exec <capability>    # execute a capability
   creates and maintains exactly one page per ticket.
 - One page per cycle, created only at the approval gate. Never create a second
   page for the same `<PREFIX>-<n>`.
-- Never hard-delete. Archive pages (`"archived": true`); `DELETE` a block only.
+- Never hard-delete. Archive pages (`"in_trash": true`); `DELETE` a block only.
 - Never commit task content, findings, or generated docs into the repo.
 - `page_size` caps at 100; when `.has_more` is true, re-query with
   `{"start_cursor":"<next_cursor>"}`.

@@ -5,6 +5,33 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- `docs/agents/review.md`: the CI gate, the human risk lane, and the
+  generated-artefact review policy.
+- Tracker ticket-body contract: mandatory description, acceptance criteria,
+  one checklist item per plan step, a verify command, and a close block. The
+  `done` gate requires every step ticked and a merged-PR link.
+- `appendBody` in the tracker interface, plus the Notion `Description` and
+  `in_trash` write paths.
+- `docs/agents/prompt.md`: a copy-paste prompt that carries a fresh agent
+  session through the full five-stage cycle.
+
+### Changed
+
+- `grill-with-docs`, `tdd`, and `code-review-and-quality` write and verify the
+  ticket body and its acceptance criteria.
+- `domain.md` places ADR writing on the ticket branch after the ticket exists.
+- `CONTRIBUTING.md` documents how a consumer fork upstreams generic changes.
+- Handoffs start from the handoff alone: 40-line cap, stat-diff staleness, a
+  next-step pointer, and no transcript or plan replay.
+- Todos are the shared cursor: printed at session start and after status
+  changes, with the active stage in every reply.
+- A merge now requires an approving review and explicit user approval; the
+  agent never self-merges.
+
 ## [0.1.1] - 2026-11-15
 
 ### Added
