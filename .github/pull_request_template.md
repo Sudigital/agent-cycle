@@ -25,3 +25,4 @@
 - [ ] `node scripts/check-provenance.mjs` passes.
 - [ ] The installer fixture installs and `--check` passes.
 - [ ] Formatting check passes; skill prose was not rewrapped.
+- [ ] Review verdict is Approve with no Required findings, and the user approved the merge.

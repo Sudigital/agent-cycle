@@ -70,13 +70,19 @@ Every adapted or vendored skill carries its upstream license text as
 1. **Plan** — interview until the work is unambiguous; settle the seams.
 2. **Task** — one tracker ticket, then a branch named after it.
 3. **Build** — red, green, refactor, in the smallest workspace.
-4. **Verify** — one review pass over the diff, findings labeled; the risk lane
-   in `docs/agents/review.md` decides who must look.
-5. **Reset** — a 40-line handoff with the exact next command.
+4. **Verify** — one review pass over the diff, findings labeled; the verdict is
+   Approve or Request changes, and the risk lane in `docs/agents/review.md`
+   decides who must look.
+5. **Reset** — a 40-line handoff with the active todo and the exact next
+   command.
 
 Build, Verify, and Reset each run in a fresh context. The only link between
 them is one handoff per ticket; the tracker is the record, not the transport
-between sessions.
+between sessions. The todo list is the shared cursor: print it at session start
+and after every status change, and keep the active stage visible in each reply.
+
+A merge needs the approving verdict, green checks, and the user's explicit
+approval; the agent never self-merges.
 
 ## Skills
 

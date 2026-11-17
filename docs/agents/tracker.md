@@ -109,7 +109,8 @@ same work because the first was hard to find — search by id and title first.
 Tick a step in the session where its proof passes, not in a batch at the end; a
 fix found in review appends to the same step list. An unchecked box on a `done`
 ticket is a defect: move it back to `review` with a comment naming the open
-step.
+step. `done` follows a merge the user approved; the tracker never authorizes a
+merge.
 
 ## Recovery
 

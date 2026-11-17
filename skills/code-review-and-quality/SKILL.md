@@ -7,7 +7,7 @@ description: Conducts multi-axis code review. Use before merging any change. Use
 
 ## Start and finish
 
-Start: read `$TMPDIR/<ticket>-handoff.md` per `skill://handoff`, compare its `HEAD` with `git rev-parse HEAD`; a mismatch means re-read `git diff` before trusting it. Finish: overwrite the same file with the Reset handoff — findings by severity, open risks, exact PR command.
+Start: read the handoff per `skill://handoff`, compare its `HEAD` with `git rev-parse HEAD`; a mismatch means read `git diff --stat` and only the hunks that change the review. Do not read the previous transcript, the whole repository, or the ticket's whole history. Finish: overwrite the handoff with findings by severity, open risks, the verdict (**Approve** or **Request changes**), and the `gh pr checks` command. Do not merge; the merge gate needs the user's explicit approval (`CLAUDE.md` → **Pull requests**).
 
 ## Overview
 
@@ -356,6 +356,10 @@ Triaging `npm audit` findings: a published advisory against a direct dependency 
 - [ ] **Approve** — Ready to merge
 - [ ] **Request changes** — Issues must be addressed
 ```
+## The merge gate
+
+The review ends with a verdict, not a merge. A change is mergeable only when this review approves it with no Required findings, CI is green, and the user explicitly approves the merge. Never run `gh pr merge` from the review; propose the command and stop.
+
 ## See Also
 
 - For project-specific security and performance rules, read the consumer's overlay (`docs/agents/domain.md` and its linked guidance).

@@ -12,6 +12,14 @@ migrations and schema, auth and permissions, payments and webhooks, deploy and
 key handling, and public contracts (APIs, events, file formats). Everything else
 may merge after the checks are green and the review findings are closed.
 
+## Merge gate
+
+A green suite and an approving review are necessary, not sufficient. Merge only
+when `code-review-and-quality` returns **Approve** with no Required findings,
+every check is green, and the user explicitly approves the merge in the session.
+The agent proposes the command; the user decides. Never self-merge, and never
+treat a plan approval or a green check as merge approval.
+
 ## Generated artefacts
 
 Mark generated files in `.gitattributes` (`-diff linguist-generated`) and review

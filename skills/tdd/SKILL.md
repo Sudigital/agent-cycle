@@ -11,7 +11,7 @@ When exploring the codebase, read `GLOSSARY.md` (if it exists) so test names and
 
 ## Start and finish
 
-Start: read `$TMPDIR/<ticket>-handoff.md` per `skill://handoff`, compare its `HEAD` with `git rev-parse HEAD`, and run its **Next command**. Finish: overwrite the same file with the Verify handoff — verdict-ready state, exact review command, `HEAD` you produced.
+Start: read the handoff per `skill://handoff`, compare its `HEAD` with `git rev-parse HEAD`, print the active todo stage, and run its **Next command**. Read nothing else until that command or the next step names it. Finish: overwrite the same file with the Verify handoff — verdict-ready state, exact review command, `HEAD` you produced.
 
 ## What a good test is
 

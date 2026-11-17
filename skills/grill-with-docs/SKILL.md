@@ -52,4 +52,4 @@ If the tracker skill cannot run, stop and report: no branch, no `curl` fallback,
 
 `skill://tdd` starts only when the task exists, the branch is cut, and the plan block lists the steps. If any of those is missing, the next action is to finish it — not to write code.
 
-Then close the planning session: write the Build handoff exactly as `skill://handoff` specifies — ticket and URL, branch, `HEAD`, the plan's steps and seams, the exact first command. Build starts in a fresh context with that file and nothing else from this session.
+Then close the planning session: write the Build handoff exactly as `skill://handoff` specifies — ticket and URL, branch, `HEAD`, the first unticked step and its seam, the exact first command. Link the full plan; do not copy it. Build starts in a fresh context with that file and nothing else from this session.

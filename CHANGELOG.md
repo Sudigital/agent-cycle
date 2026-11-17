@@ -23,6 +23,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ticket body and its acceptance criteria.
 - `domain.md` places ADR writing on the ticket branch after the ticket exists.
 - `CONTRIBUTING.md` documents how a consumer fork upstreams generic changes.
+- Handoffs start from the handoff alone: 40-line cap, stat-diff staleness, a
+  next-step pointer, and no transcript or plan replay.
+- Todos are the shared cursor: printed at session start and after status
+  changes, with the active stage in every reply.
+- A merge now requires an approving review and explicit user approval; the
+  agent never self-merges.
 
 ## [0.1.1] - 2026-11-15
 

@@ -26,6 +26,9 @@ environment; no skill hard-codes a board id, a ticket prefix, or a command.
 
 ## Read first
 
+- **A handoff wins.** When `$TMPDIR/<ticket>-handoff.md` exists, read it first
+  and treat it as the whole context for this phase. Read the glossary, ticket,
+  ADRs, or source only when the next command or next step needs them.
 - Read the project glossary (`GLOSSARY.md`) before exploring source; if it does
   not exist, proceed without it.
 - Never read build output, dependency trees, coverage, or lockfiles. They are
@@ -35,9 +38,15 @@ environment; no skill hard-codes a board id, a ticket prefix, or a command.
 ## The 5-stage cycle
 
 One request, five stages, in this order. Do not skip a stage; do not run two at
-once. Print the cycle as todos once at session start (`Plan`, `Task`, `Build`,
-`Verify`, `Reset`) and keep them current. In `Plan`, one todo per interview
-round plus "docs + ADR approved".
+once.
+
+**Todos are the shared cursor.** Initialize `Plan`, `Task`, `Build`, `Verify`,
+`Reset` at session start, with one todo per interview round plus "docs + ADR
+approved" inside `Plan`. Print the list at session start and after every status
+change, with the active stage first. Do not reprint the full list every turn;
+keep a one-line stage marker (`Plan → Task → **Build** → Verify → Reset`) in the
+reply so both sides can see where the work is. A phase starts only after the
+previous one is marked done.
 
 ### 1. Plan — `skill://grill-with-docs`
 
@@ -93,12 +102,15 @@ re-run the review to confirm findings.
 Check, in order: correctness, readability, architecture, security,
 performance. Label each finding Required, Recommended, or Optional. Report the
 findings; do not silently rewrite the change. Post them to the pull request when
-one exists, otherwise to the handoff document.
+one exists, otherwise to the handoff document. End with a verdict: **Approve**
+or **Request changes**. The verdict is not merge authorization; the merge gate
+is in **Pull requests**.
 
 ### 5. Reset — `skill://handoff` (fresh context)
 
-Capture the state before context runs out: what shipped, what is open, the
-exact next command. Then stop. A handoff is a deliverable, not a failure.
+Capture the state before context runs out: the active todo, what shipped, what
+is open, the exact next command. Then stop. A handoff is a deliverable, not a
+failure.
 
 ## Context and handoffs
 
@@ -113,22 +125,28 @@ not part of that chain: the adapter skill is the only transport, and
 2. **File.** `$TMPDIR/<ticket>-handoff.md` (`/tmp` when `TMPDIR` is unset),
    `<ticket>` the `<TICKET_PREFIX>-<n>` in the branch name. One file per
    ticket, overwritten at every boundary — never one per step.
-3. **Format.** At most 40 lines: phase; ticket URL; branch; HEAD
-   (`git rev-parse HEAD`); what landed; exact next command; failing test or
-   repro; files touched; open risks; invariants to keep; suggested skills.
-   Reference plans, ADRs, and tickets by path or URL; never restate them.
-4. **Start.** The branch is the task marker. Read it at session start; if the
-   handoff exists, read it and compare its HEAD with `git rev-parse HEAD` —
-   equal means continue from the next command. No handoff means start
-   immediately.
-5. **Staleness.** A HEAD mismatch makes the handoff stale: re-read
-   `git diff <handoff-head>..HEAD` before trusting it.
+3. **Format.** At most 40 lines, one fact per line: phase and the active todo;
+   ticket URL; branch; HEAD (`git rev-parse HEAD`); what landed; the next
+   unticked plan step and its seam; one executable next command (or `none`);
+   failing test or repro; files touched; open risks; invariants to keep;
+   suggested skills. Link the plan, ADRs, and ticket; never copy them. A full
+   plan or diff in the handoff is a bug.
+4. **Start.** The branch is the task marker. Read the branch and the handoff
+   before anything else. Compare the handoff's HEAD with `git rev-parse HEAD`:
+   equal means run the next command; different means read
+   `git diff --stat <handoff-head>..HEAD` and open only the files it names that
+   change the next command. Do not read the previous transcript, re-derive the
+   plan from the ticket, or re-run checks to reconstruct state.
+5. **Staleness.** A HEAD mismatch makes the handoff stale. Start from the stat
+   diff; read a full diff only for the files it names.
 6. **No mid-phase write.** If the next phase continues in the same context, skip
    the write; it duplicates context and costs tokens.
 7. **Never commit the handoff.** Generated docs stay out of the repository.
-8. **Token discipline.** Run the narrowest check (one test file, scoped
-   lint/format), search and range-read before opening files, never re-read
-   content already in context, and never re-run a check to confirm it.
+8. **Token discipline.** Read the handoff, then only what the next command
+   names. Prefer `git diff --stat` before a full diff, one test file, scoped
+   lint/format, and range reads before whole files. Never re-read content
+   already in context, never re-run a check to confirm it, and never paste a
+   plan, diff, or prior reply into the next session.
 
 ## Tracker
 
@@ -158,9 +176,16 @@ not part of that chain: the adapter skill is the only transport, and
 - The body carries `## Risk`, `## Standards`, and `## Spec`.
 - The CI gate and the human risk lane are in `docs/agents/review.md`; a
   risk-lane change needs the review it names, not just green checks.
-- Merge only after the checks are green, with
+- **Merge gate.** Merge only when all three hold: `code-review-and-quality`
+  returns **Approve** with no Required findings, every check is green, and the
+  user explicitly approves the merge in this session. "Green" and "LGTM" are
+  not approval; a plan approval is not a merge approval. The agent never
+  self-merges and never runs the merge command without that explicit "merge".
+- When the gate holds, run
   `gh pr merge <n> --squash --delete-branch`. Never `--merge` or `--rebase` for
   ticket pull requests unless the consumer's overlay explicitly allows it.
+- If the user has not approved, post the review verdict and the exact merge
+  command, then stop.
 
 ## Commands
 
