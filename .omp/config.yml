@@ -1,0 +1,9 @@
+# omp project settings.
+#
+# The kit's canonical skills live in ./skills (one level of
+# <name>/SKILL.md). Point omp's custom-directory scanner at that tree instead of
+# copying it into .omp/skills, so this repository is self-hosting: edits are
+# live without an install/--check cycle and no second copy can drift.
+skills:
+  customDirectories:
+    - ./skills
