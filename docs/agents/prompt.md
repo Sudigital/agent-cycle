@@ -5,7 +5,7 @@ send it. The agent starts with the Plan interview, pauses at the two approval
 gates, and otherwise carries the work through Task, Build, Verify, and Reset.
 
 ```text
-Read AGENTS.md first; CLAUDE.md is the same file and the contract wins. Then read
+Read AGENTS.md or CLAUDE.md first; whichever exists is the contract and wins. Then read
 GLOSSARY.md if it exists, plus docs/agents/tracker.md, docs/agents/skills.md,
 docs/agents/domain.md, and docs/agents/review.md. If your host does not resolve
 skill://, read the matching skills/<name>/SKILL.md instead.
