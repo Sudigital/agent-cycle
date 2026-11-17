@@ -57,6 +57,7 @@ lock records the tag and hashes without a commit.
 | `docs/agents/tracker.md` | The tracker interface every adapter implements.                                    |
 | `docs/agents/skills.md`  | Which stage loads which skill, and when.                                           |
 | `docs/agents/domain.md`  | Glossary and ADR conventions the skills consume.                                   |
+| `docs/agents/review.md`  | CI gate, human risk lane, and generated-artefact review policy.                    |
 | `adapters/notion/`       | Worked adapter: `ntn` mechanics, schema, and status mapping.                       |
 | `provenance.json`        | One row per skill: path, classification, source, commit, license, license file.    |
 | `UPSTREAM.md`            | The upstream pins behind the adapted and vendored skills.                          |
@@ -69,7 +70,8 @@ Every adapted or vendored skill carries its upstream license text as
 1. **Plan** — interview until the work is unambiguous; settle the seams.
 2. **Task** — one tracker ticket, then a branch named after it.
 3. **Build** — red, green, refactor, in the smallest workspace.
-4. **Verify** — one review pass over the diff, findings labeled.
+4. **Verify** — one review pass over the diff, findings labeled; the risk lane
+   in `docs/agents/review.md` decides who must look.
 5. **Reset** — a 40-line handoff with the exact next command.
 
 Build, Verify, and Reset each run in a fresh context. The only link between

@@ -29,6 +29,8 @@ Ask: "What's the public interface, and which seams should we test?" Give each pr
 
 The seams are the ticket's plan: settle them in Plan, list them in its `Plan` block. Do not re-negotiate them mid-run: a seam that turns out wrong is a plan change, and the plan is what gets re-approved. When the shape of the interface is itself in question, read `skill://codebase-design` and settle module, interface, depth, seam, adapter, leverage, and locality with the user first.
 
+The acceptance criteria are the test list: each observable condition gets at least one test at an agreed seam, added as its own red → green slice. A criterion that cannot be tested is a plan problem; re-approve it instead of writing a vacuous test.
+
 ## Anti-patterns
 
 - **Implementation-coupled**: mocks internal collaborators, tests private methods, or verifies through a side channel (querying the database instead of using the interface). The tell: the test breaks when you refactor but behavior hasn't changed.
@@ -39,4 +41,5 @@ The seams are the ticket's plan: settle them in Plan, list them in its `Plan` bl
 
 - **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
+- **Tick as you land.** Tick the ticket's plan step in the session where its proof passes, not in a batch at the end. A fix found in review appends to the same step list; it does not start a second plan.
 - **Refactor in Build, after green.** Clean up with the test passing, then move on; Verify reports findings and does not rewrite the change.

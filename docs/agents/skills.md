@@ -63,6 +63,11 @@ the task changes a frontend workspace, never for backend-only or docs work.
 - Interviews are always interactive: one form per round, one field per
   question, recommendation pre-selected.
 
+## Review policy
+
+`docs/agents/review.md` carries the CI gate, the human risk lane, and the
+generated-artefact rules that `code-review-and-quality` reads.
+
 ## Editing
 
 Change the skill's `SKILL.md` in place on the ticket that needs the change.

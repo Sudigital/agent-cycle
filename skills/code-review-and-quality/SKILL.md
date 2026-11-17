@@ -31,7 +31,7 @@ Every review evaluates code across these dimensions:
 
 Does the code do what it claims to do?
 
-- Does it match the spec or task requirements?
+- Does it satisfy every acceptance criterion on the ticket, and does the verification prove each one?
 - Are edge cases handled (null, empty, boundary values)?
 - Are error paths handled (not just the happy path)?
 - Does it pass all tests? Are the tests actually testing the right things?
@@ -316,7 +316,7 @@ Triaging `npm audit` findings: a published advisory against a direct dependency 
 - [ ] I understand what this change does and why
 
 ### Correctness
-- [ ] Change matches spec/task requirements
+- [ ] Acceptance criteria on the ticket are all satisfied
 - [ ] Edge cases handled
 - [ ] Error paths handled
 - [ ] Tests cover the change adequately
@@ -346,9 +346,11 @@ Triaging `npm audit` findings: a published advisory against a direct dependency 
 - [ ] Pagination on list endpoints
 
 ### Verification
+- [ ] Acceptance criteria verified
 - [ ] Tests pass
 - [ ] Build succeeds
 - [ ] Manual verification done (if applicable)
+- [ ] Ticket plan steps ticked only with evidence
 
 ### Verdict
 - [ ] **Approve** — Ready to merge
@@ -357,6 +359,7 @@ Triaging `npm audit` findings: a published advisory against a direct dependency 
 ## See Also
 
 - For project-specific security and performance rules, read the consumer's overlay (`docs/agents/domain.md` and its linked guidance).
+- For the CI gate and the human risk lane, read `docs/agents/review.md` when it exists.
 - Review `git diff` once; findings land on the PR when one exists, otherwise in the handoff doc.
 
 ## Common Rationalizations
@@ -381,6 +384,7 @@ Triaging `npm audit` findings: a published advisory against a direct dependency 
 - Security-sensitive changes without security-focused review
 - Large PRs that are "too big to review properly" (split them)
 - No regression tests with bug fix PRs
+- A ticket marked done with an unchecked plan step, or a tick with no evidence
 - Review comments without severity labels — makes it unclear what's required vs optional
 - Accepting "I'll fix it later" — it never happens
 - A refactor that moves code around without reducing the number of concepts a reader must hold
@@ -391,6 +395,8 @@ Triaging `npm audit` findings: a published advisory against a direct dependency 
 - A lockfile change that's hand-edited, uncommitted, or merged without reviewing its diff
 
 ## Verification
+
+**Ticket honesty:** every plan step is ticked only where its proof exists; a done ticket has no unchecked step. Missing evidence is a Required finding.
 
 After review is complete:
 

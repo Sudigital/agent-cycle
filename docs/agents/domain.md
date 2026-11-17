@@ -25,8 +25,9 @@ upfront as a glossary-writing exercise.
 
 Record each architecture decision as `docs/adr/NNNN-kebab-title.md` with
 `Status`, `Date`, `Context`, `Decision`, `Alternatives`, and `Consequences`.
-Add the row to `docs/adr/README.md`. Write the file after approval and before
-the tracker ticket. Never record a decision as a `GLOSSARY.md` bullet.
+Add the row to `docs/adr/README.md`. Write the file after approval, on the
+ticket branch, once the tracker ticket exists (Task stage). Never record a
+decision as a `GLOSSARY.md` bullet.
 
 A superseded decision keeps its file; set `Status: Superseded by NNNN` and link
 forward to its replacement.

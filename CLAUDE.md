@@ -63,7 +63,7 @@ say so in one line and move on.
 No Build before the ticket exists; no branch before it either. The tracker
 adapter skill is the only transport: search the board, show the candidates, one
 form for create-vs-reuse, then create exactly one ticket, set it to the
-adapter's planned state, append the `Plan` block, and cut
+adapter's planned state, write its body (see **Tracker**), and cut
 `<type>/<TICKET_PREFIX>-<n>` from `origin/<BASE_BRANCH>` on a clean tree.
 `docs/agents/tracker.md` is the interface, never a script to run.
 
@@ -135,6 +135,17 @@ not part of that chain: the adapter skill is the only transport, and
 - The ticket is the whole record: plan, decisions, ADR links. Later skills
   append comments and move status — planned at creation, in-progress when Build
   starts, review while the change is open, done when it merges.
+- **Body.** `Description` is one or two sentences: the problem and the fix.
+  The body is `## Problem` (optional), `## Acceptance criteria` (one bullet per
+  observable condition; mandatory on feature and bug tickets), `## Plan` (one
+  checklist item per step, naming its artifact and proof), `## Verify` (the
+  exact command or click path), optional `## Decisions`, and `## Close` at
+  merge. Keep it under about 20 blocks / 4 KB; never `Phase N —` sections,
+  `Decision record —` chains, `Fix record`, `Execution log`, or `Planning log`.
+  Titles are plain: the commit and PR carry the type.
+- **`done` gate.** `done` requires every plan step ticked and `## Close`
+  naming the merged PR. Tick a step in the session where its proof passes; an
+  unchecked box on a done ticket is a defect.
 - `<BASE_BRANCH>` is the integration branch and the base of every task change.
 - Commit `type(<TICKET_PREFIX>-<n>): description`; one ticket, one commit.
 - Run the whole tracker through the adapter skill — page reads, creation,
@@ -145,6 +156,8 @@ not part of that chain: the adapter skill is the only transport, and
 
 - Base `<BASE_BRANCH>`; title `type(<TICKET_PREFIX>-<n>): description`.
 - The body carries `## Risk`, `## Standards`, and `## Spec`.
+- The CI gate and the human risk lane are in `docs/agents/review.md`; a
+  risk-lane change needs the review it names, not just green checks.
 - Merge only after the checks are green, with
   `gh pr merge <n> --squash --delete-branch`. Never `--merge` or `--rebase` for
   ticket pull requests unless the consumer's overlay explicitly allows it.
@@ -173,7 +186,8 @@ without context, and the result of a real trade-off. Write
 `docs/adr/README.md`. A reversed decision is marked `Superseded by NNNN`, never
 deleted.
 
-Everything else decided stays in the plan and the ticket's `Plan` block.
+Everything else decided stays in the plan and the ticket's `## Decisions`
+bullets.
 `GLOSSARY.md` is vocabulary only: no implementation decisions, no spec, no
 notes. Product invariants belong in the consumer's overlay, not in this
 portable contract.
