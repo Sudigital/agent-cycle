@@ -31,6 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   changes, with the active stage in every reply.
 - A merge now requires an approving review and explicit user approval; the
   agent never self-merges.
+- Context discipline is explicit in the contract and prompt: handoff-only,
+  stat-diff and range reads, capped tool output, batched calls, concise answers,
+  and a soft stage budget.
 
 ## [0.1.1] - 2026-11-15
 

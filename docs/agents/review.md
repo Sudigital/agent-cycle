@@ -5,6 +5,12 @@ mandatory reviewer: a change merges only after the checks are green. A review
 that finds no issues does not replace the checks, and a green check does not
 replace the review.
 
+## Review scope
+
+Start with `git diff --stat`; read only changed files and the ranges those files
+need. Do not read the whole repository, re-read a file already in context, or
+re-run a check to confirm a finding. One pass, one verdict.
+
 ## Risk lane
 
 A human gives the second pair of eyes when a change is hard to reverse: database

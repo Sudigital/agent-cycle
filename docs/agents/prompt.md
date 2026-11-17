@@ -27,6 +27,14 @@ If a handoff exists for this ticket, read it first and compare its HEAD with
 unavailable or the working tree is unclean, stop and report the exact problem;
 never invent a ticket, a branch, or a passing check.
 
+## Context budget
+Read the handoff first; read only what the next command names. Use
+`git diff --stat` before a full diff, and range reads before whole files. Cap
+tool output to failing lines and scoped tests; no full suite or watch mode.
+Batch independent reads, searches, and checks into one turn. Do not restate the
+plan, diff, or previous reply. If a stage grows past roughly 200k input tokens,
+write the handoff and continue in a fresh session.
+
 ## Plan
 Use skill://grill-with-docs. Ask one form per round, one field per question, with
 the recommendation pre-selected. Do not write code, a ticket, or a branch until I
@@ -47,10 +55,11 @@ plan step only where its proof exists. Run the narrowest test, typecheck, lint,
 and format; do not run the full suite unless I ask.
 
 ## Verify
-Use skill://code-review-and-quality in a fresh context. Review `git diff` only,
-label findings Required/Recommended/Optional, and end with a verdict: Approve or
-Request changes. Post the findings to the PR when one exists, otherwise to the
-handoff. Do not merge.
+Use skill://code-review-and-quality in a fresh context. Review `git diff` only:
+start with `git diff --stat`, read only changed files and ranges, and do not
+re-run checks to confirm a finding. Label findings Required/Recommended/Optional,
+and end with a verdict: Approve or Request changes. Post the findings to the PR
+when one exists, otherwise to the handoff. Do not merge.
 
 ## Reset
 Use skill://handoff. Write the 40-line handoff with the active todo, HEAD, what

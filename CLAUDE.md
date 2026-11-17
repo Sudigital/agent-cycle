@@ -147,6 +147,14 @@ not part of that chain: the adapter skill is the only transport, and
    lint/format, and range reads before whole files. Never re-read content
    already in context, never re-run a check to confirm it, and never paste a
    plan, diff, or prior reply into the next session.
+   - **Tool output.** Read failing lines and ranges, not full logs. Never dump
+     a full suite, build output, or a long artefact into the transcript.
+   - **Round trips.** Batch independent reads, searches, and checks into one
+     turn.
+   - **Output.** Do not restate the plan, diff, or previous reply. One verdict,
+     one handoff, one final answer.
+   - **Soft budget.** If a stage grows past roughly 200k input tokens, stop at
+     the next safe point, write the handoff, and continue in a fresh session.
 
 ## Tracker
 
