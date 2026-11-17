@@ -58,6 +58,7 @@ lock records the tag and hashes without a commit.
 | `docs/agents/skills.md`  | Which stage loads which skill, and when.                                           |
 | `docs/agents/domain.md`  | Glossary and ADR conventions the skills consume.                                   |
 | `docs/agents/review.md`  | CI gate, human risk lane, and generated-artefact review policy.                    |
+| `docs/agents/prompt.md`  | Copy-paste prompt for running the whole cycle end to end.                          |
 | `adapters/notion/`       | Worked adapter: `ntn` mechanics, schema, and status mapping.                       |
 | `provenance.json`        | One row per skill: path, classification, source, commit, license, license file.    |
 | `UPSTREAM.md`            | The upstream pins behind the adapted and vendored skills.                          |
@@ -83,6 +84,13 @@ and after every status change, and keep the active stage visible in each reply.
 
 A merge needs the approving verdict, green checks, and the user's explicit
 approval; the agent never self-merges.
+
+## Run it from one prompt
+
+Copy the prompt in [`docs/agents/prompt.md`](docs/agents/prompt.md) into a fresh
+agent session, fill the placeholders, and send it. It carries the work from Plan
+to Reset and stops only at the plan approval, the merge approval, or a real
+blocker.
 
 ## Skills
 

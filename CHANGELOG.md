@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `done` gate requires every step ticked and a merged-PR link.
 - `appendBody` in the tracker interface, plus the Notion `Description` and
   `in_trash` write paths.
+- `docs/agents/prompt.md`: a copy-paste prompt that carries a fresh agent
+  session through the full five-stage cycle.
 
 ### Changed
 
