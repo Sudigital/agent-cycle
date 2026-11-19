@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   provenance rules.
 - `package-lock.json` for reproducible installs, Dependabot updates, and pinned
   action commits.
-- A Node 20/22/24 CI matrix and README status badges.
+- A Node 20/22/24 CI matrix, `.nvmrc`, and README status badges.
 - Branch protection on `dev`: pull requests require CI, and force-pushes and
   deletion are blocked.
 
