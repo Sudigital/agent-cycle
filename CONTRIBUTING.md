@@ -98,7 +98,7 @@ rewrap skill prose: `skills/` and `adapters/` are excluded in `.oxfmtrc.json`.
 ## Branch protection
 
 `dev` is protected: pull requests require the three CI checks, and force-pushes
-and deletion are blocked. Repository admins use the pull request bypass for the
+and deletion are blocked. Repository admins bypass the ruleset for the
 maintenance lane; the contract still requires a green suite before that push.
 
 ## Commit and pull request style
