@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-19
+
 ### Added
 
 - `skills/product-brainstorming`: vendored manual-only ideation sparring
@@ -68,6 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The README quick start installs the contract the skills reference, and the
   commit caveat for tarball installs is documented.
 
+[0.2.0]: https://github.com/Sudigital/agent-cycle/releases/tag/v0.2.0
 [0.1.1]: https://github.com/Sudigital/agent-cycle/releases/tag/v0.1.1
 
 ## [0.1.0] - 2026-11-15

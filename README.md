@@ -14,7 +14,7 @@ at install time. It requires Node 20 or newer.
 A fresh project installs the skills and the contract they reference:
 
 ```bash
-npx github:Sudigital/agent-cycle#v0.1.1 install --target . --both --with-docs
+npx github:Sudigital/agent-cycle#v0.2.0 install --target . --both --with-docs
 ```
 
 That writes `.omp/skills/` and `.claude/skills/`, then copies `CLAUDE.md`,
@@ -24,8 +24,8 @@ an existing `CLAUDE.md`, `docs/agents/`, or `adapters/`; merge those manually.
 Skills only, into an existing project:
 
 ```bash
-npx github:Sudigital/agent-cycle#v0.1.1 install --target .omp/skills
-npx github:Sudigital/agent-cycle#v0.1.1 install --target .claude/skills
+npx github:Sudigital/agent-cycle#v0.2.0 install --target .omp/skills
+npx github:Sudigital/agent-cycle#v0.2.0 install --target .claude/skills
 ```
 
 The skills reference `docs/agents/` and `adapters/`; copy those from a checkout
@@ -37,8 +37,8 @@ Each skills install writes `.skills-lock.json`; `--with-docs` also writes
 installed from a git checkout, and a SHA-256 per file. Verify at any time:
 
 ```bash
-npx github:Sudigital/agent-cycle#v0.1.1 --check --target .omp/skills
-npx github:Sudigital/agent-cycle#v0.1.1 --check --target . --both --with-docs
+npx github:Sudigital/agent-cycle#v0.2.0 --check --target .omp/skills
+npx github:Sudigital/agent-cycle#v0.2.0 --check --target . --both --with-docs
 ```
 
 `--check` recomputes the hashes and exits non-zero when a file is missing,
@@ -139,7 +139,7 @@ reporting a vulnerability. This project follows the Contributor Covenant 2.1.
 
 ## AI credit
 
-The v0.1.1 release was authored with assistance from **omp** running
+The v0.1.1 and v0.2.0 releases were authored with assistance from **omp** running
 **deepseek-flash**. Commits carry an `Assisted-by: omp (deepseek-flash)`
 trailer when that is true, and no other assistant is credited.
 
