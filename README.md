@@ -1,5 +1,8 @@
 # agent-cycle
 
+[![CI](https://github.com/Sudigital/agent-cycle/actions/workflows/ci.yml/badge.svg?branch=dev)](https://github.com/Sudigital/agent-cycle/actions/workflows/ci.yml)
+[![Release](https://github.com/Sudigital/agent-cycle/actions/workflows/release.yml/badge.svg)](https://github.com/Sudigital/agent-cycle/actions/workflows/release.yml)
+
 A portable agent skill kit: interview → approval → ticket → TDD → review →
 handoff, with tracker adapters and context-reset handoffs.
 

@@ -3,12 +3,12 @@
 ## Supported versions
 
 The latest tagged release receives fixes. Older tags are snapshots of prose;
-fixes land on `main` and in the next tag rather than as backports.
+fixes land on `dev` and in the next tag rather than as backports.
 
 | Version | Supported |
 | ------- | --------- |
-| `0.1.x` | Yes       |
-| `< 0.1` | No        |
+| `0.2.x` | Yes       |
+| `< 0.2` | No        |
 
 ## Reporting a vulnerability
 

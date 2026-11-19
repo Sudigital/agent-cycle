@@ -80,6 +80,7 @@ reinstall. Never leave the canonical text behind the consumer.
 ## Checks
 
 ```bash
+npm ci
 node scripts/check-provenance.mjs
 node scripts/check-release.mjs
 node scripts/check-skill-refs.mjs
@@ -88,11 +89,17 @@ node bin/agent-cycle.mjs install --target /tmp/agent-cycle-fixture
 node bin/agent-cycle.mjs --check --target /tmp/agent-cycle-fixture
 node bin/agent-cycle.mjs install --target /tmp/agent-cycle-project --both --with-docs
 node bin/agent-cycle.mjs --check --target /tmp/agent-cycle-project --both --with-docs
-npx oxfmt@0.47.0 --check .
+npm run format:check
 ```
 
-CI runs the same commands. A formatter pass must never rewrap skill prose:
-`skills/` and `adapters/` are excluded in `.oxfmtrc.json`.
+CI runs the same commands on Node 20, 22, and 24. A formatter pass must never
+rewrap skill prose: `skills/` and `adapters/` are excluded in `.oxfmtrc.json`.
+
+## Branch protection
+
+`dev` is protected: pull requests require the three CI checks, and force-pushes
+and deletion are blocked. Repository admins use the pull request bypass for the
+maintenance lane; the contract still requires a green suite before that push.
 
 ## Commit and pull request style
 

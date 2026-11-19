@@ -139,7 +139,9 @@ stages and gates takes the full five-stage path. The lane is housekeeping, not a
 feature shortcut; when in doubt, run the cycle.
 
 The lane does not weaken the merge gate: a ticket pull request still needs the
-review verdict, green checks, and the user's explicit merge approval.
+review verdict, green checks, and the user's explicit merge approval. On GitHub
+the base branch is protected; external changes arrive by pull request, and the
+lane uses the repository-admin bypass of the pull request rule.
 
 ## Context and handoffs
 

@@ -19,12 +19,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   reversible housekeeping changes.
 - Checker fixtures under `scripts/*.test.mjs` for the release, reference, and
   provenance rules.
+- `package-lock.json` for reproducible installs, Dependabot updates, and pinned
+  action commits.
+- A Node 20/22/24 CI matrix and README status badges.
+- Branch protection on `dev`: pull requests require CI, and force-pushes and
+  deletion are blocked.
 
 ### Changed
 
 - `provenance.json` no longer requires `source`, `commit`, or `licenseFile` for
   `repo-owned` skills; their license defaults to the repository's MIT.
 - `.omp/skills/` is gitignored as an install target, never a second skill tree.
+- `LICENSE` is the canonical MIT text, so GitHub detects it; third-party terms
+  stay in `THIRD-PARTY-NOTICES.md`.
+- `SECURITY.md` tracks `0.2.x` and the `dev` integration branch.
+- The `Release` workflow runs the test suite and formatting before it publishes.
 
 ## [0.2.0] - 2026-11-19
 

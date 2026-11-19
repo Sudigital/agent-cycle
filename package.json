@@ -10,7 +10,12 @@
     "tdd",
     "workflow"
   ],
+  "homepage": "https://github.com/Sudigital/agent-cycle#readme",
+  "bugs": {
+    "url": "https://github.com/Sudigital/agent-cycle/issues"
+  },
   "license": "MIT",
+  "author": "Sudigital",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Sudigital/agent-cycle.git"

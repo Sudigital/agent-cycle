@@ -24,7 +24,9 @@ A change confined to docs, checks, CI, version pins, ignore rules, or release
 housekeeping may land directly on the base branch with no ticket or pull request.
 It still needs the full checks green and a `git diff` self-review. Shipped
 skills, the installer, adapters, the lock format, and the cycle's stages and
-gates stay on the five-stage path.
+gates stay on the five-stage path. On GitHub the base branch is protected:
+pull requests require the CI checks, and repository admins may bypass the pull
+request rule for this lane.
 
 ## Merge gate
 
