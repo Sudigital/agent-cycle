@@ -122,6 +122,25 @@ Capture the state before context runs out: the active todo, what shipped, what
 is open, the exact next command. Then stop. A handoff is a deliverable, not a
 failure.
 
+## Maintenance lane
+
+A mechanical, reversible change may land directly on `<BASE_BRANCH>` without a
+ticket, branch, or pull request when all of these hold:
+
+- it touches only documentation, checks, CI, version pins, ignore rules, or
+  release housekeeping;
+- no shipped skill, installer behavior, lock format, adapter interface, stage,
+  or gate moves;
+- the full check suite is green locally and in CI;
+- the commit names the change and its proof.
+
+Anything that changes `skills/`, `lib/`, `bin/`, `adapters/`, or the cycle's
+stages and gates takes the full five-stage path. The lane is housekeeping, not a
+feature shortcut; when in doubt, run the cycle.
+
+The lane does not weaken the merge gate: a ticket pull request still needs the
+review verdict, green checks, and the user's explicit merge approval.
+
 ## Context and handoffs
 
 Plan and Task share one session. Build, Verify, and Reset each start in a fresh

@@ -88,3 +88,12 @@ jobs:
 
       - name: Format governance files, scripts, and modules
         run: npx --yes oxfmt@0.47.0 --check .
+
+      - name: Release metadata is internally consistent
+        run: node scripts/check-release.mjs
+
+      - name: Skill references and skills table are consistent
+        run: node scripts/check-skill-refs.mjs
+
+      - name: Checker fixtures
+        run: node --test scripts/*.test.mjs

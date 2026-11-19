@@ -33,9 +33,10 @@ small Node CLI and validation scripts; the bar is accuracy, not volume.
   `UPSTREAM.md`, and `THIRD-PARTY-NOTICES.md` together, and add its upstream
   license text as `LICENSE.txt` in the skill directory. A missing license,
   commit, or notice fails CI.
-- If you add a skill, add its directory, a provenance row with `licenseFile`, an
-  upstream row, and a notice row. Every adapted or vendored skill keeps its
-  upstream license text; Apache-2.0 material keeps the full text.
+- If you add a skill, add its directory and a provenance row. Adapted or
+  vendored skills also need an upstream row, a notice row, a `licenseFile`, and
+  the upstream license text; Apache-2.0 material keeps the full text. A
+  repo-owned skill needs no source pin, commit, license file, or notice.
 
 ## Changing the installer
 
@@ -63,12 +64,26 @@ reinstall. Never leave the canonical text behind the consumer.
    `check-provenance.mjs`.
 3. Reinstall the consumer from the new revision and re-apply its overlay. Its
    `UPSTREAM.md` records the lineage; there is no lock to merge.
-4. Run the checks below on both sides.
+4. Run the checks below here; in the consumer, run the installer `--check` and
+   its formatter.
+
+## Releasing
+
+1. Bump `version` in `package.json`; add `## [x.y.z] - YYYY-MM-DD` and its
+   `/releases/tag/vx.y.z` link to `CHANGELOG.md`; re-pin every
+   `npx github:...#vx.y.z` command in `README.md`.
+2. Run the checks below, then commit, tag annotated `vx.y.z`, and push both.
+3. The `Release` workflow verifies the tag against `package.json`, the README
+   pins, and the changelog, then creates the GitHub Release from that changelog
+   section. It leaves an existing Release untouched.
 
 ## Checks
 
 ```bash
 node scripts/check-provenance.mjs
+node scripts/check-release.mjs
+node scripts/check-skill-refs.mjs
+node --test scripts/*.test.mjs
 node bin/agent-cycle.mjs install --target /tmp/agent-cycle-fixture
 node bin/agent-cycle.mjs --check --target /tmp/agent-cycle-fixture
 node bin/agent-cycle.mjs install --target /tmp/agent-cycle-project --both --with-docs

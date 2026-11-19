@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `scripts/check-release.mjs` and the tag-triggered `Release` workflow: the
+  package version, every README install pin, the changelog section and link, and
+  the pushed tag must agree before a GitHub Release is created.
+- `scripts/check-skill-refs.mjs`: every `skill://` and `/skill:` reference in
+  the contract and docs must resolve, the skills table must match `skills/`, the
+  stated skill count must match, and `.omp/skills` must not be tracked.
+- A maintenance lane in `CLAUDE.md` and the review policy for mechanical,
+  reversible housekeeping changes.
+- Checker fixtures under `scripts/*.test.mjs` for the release, reference, and
+  provenance rules.
+
+### Changed
+
+- `provenance.json` no longer requires `source`, `commit`, or `licenseFile` for
+  `repo-owned` skills; their license defaults to the repository's MIT.
+- `.omp/skills/` is gitignored as an install target, never a second skill tree.
+
 ## [0.2.0] - 2026-11-19
 
 ### Added

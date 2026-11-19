@@ -3,7 +3,8 @@
 This repository's own prose is MIT (see `LICENSE`). Every adapted or vendored
 skill keeps its upstream license text as `LICENSE.txt` in its skill directory,
 and this file records the source, pinned commit, license, and license file for
-every skill in `skills/`.
+every adapted or vendored skill in `skills/`. Repo-owned skills are authored
+here and have no third-party notice.
 
 | Skill                           | Source                                               | Commit                                     | License    | License file                                       | Changes                                                                     |
 | ------------------------------- | ---------------------------------------------------- | ------------------------------------------ | ---------- | -------------------------------------------------- | --------------------------------------------------------------------------- |
@@ -51,13 +52,6 @@ as the license requires.
 All three files are distributed unmodified under the Apache License, Version 2.0.
 You may obtain a copy of the license at
 <https://www.apache.org/licenses/LICENSE-2.0>.
-
-## Repo-owned skills
-
-- `llm-wiki` — prose authored for this kit under this repository's MIT license.
-  It follows the LLM Wiki pattern in
-  [Karpathy's gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
-  (revision `ac46de1ad27f92b28ac95459c782c07f6b8c964a`); no gist text is copied.
 
 ## Strix CLI
 

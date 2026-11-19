@@ -6,7 +6,13 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const args = process.argv.slice(2);
+const rootIndex = args.indexOf("--root");
+if (rootIndex !== -1 && !args[rootIndex + 1]) {
+  console.error("--root requires a directory");
+  process.exit(2);
+}
+const ROOT = rootIndex === -1 ? resolve(dirname(fileURLToPath(import.meta.url)), "..") : resolve(args[rootIndex + 1]);
 const SKILLS = join(ROOT, "skills");
 const NOTICES = join(ROOT, "THIRD-PARTY-NOTICES.md");
 const PROVENANCE = join(ROOT, "provenance.json");
@@ -85,9 +91,16 @@ function checkProvenance() {
     if (!CLASSIFICATIONS.has(row.classification)) {
       fail(`${row.path}: classification must be repo-owned, adapted, or vendored`);
     }
-    for (const field of ["source", "commit", "license"]) {
-      if (typeof row[field] !== "string" || row[field].trim() === "") {
-        fail(`${row.path}: missing ${field}`);
+    const repoOwned = row.classification === "repo-owned";
+    if (typeof row.license !== "string" || row.license.trim() === "") {
+      if (repoOwned) row.license = "MIT";
+      else fail(`${row.path}: missing license`);
+    }
+    if (!repoOwned) {
+      for (const field of ["source", "commit"]) {
+        if (typeof row[field] !== "string" || row[field].trim() === "") {
+          fail(`${row.path}: missing ${field}`);
+        }
       }
     }
     if (!LICENSES.has(row.license)) {
@@ -128,18 +141,19 @@ function checkProvenance() {
     if (!dirs.includes(name)) fail(`provenance row has no skill directory: skills/${name}`);
   }
 
+  const thirdParty = [...rows].filter(([, row]) => row.classification !== "repo-owned");
   const notices = existsSync(NOTICES) ? readFileSync(NOTICES, "utf8") : "";
-  if (!notices) fail("THIRD-PARTY-NOTICES.md is missing or empty");
+  if (thirdParty.length > 0 && !notices) fail("THIRD-PARTY-NOTICES.md is missing or empty");
   const upstreamPath = join(ROOT, "UPSTREAM.md");
   const upstream = existsSync(upstreamPath) ? readFileSync(upstreamPath, "utf8") : "";
-  if (!upstream) fail("UPSTREAM.md is missing or empty");
+  if (thirdParty.length > 0 && !upstream) fail("UPSTREAM.md is missing or empty");
 
-  for (const [name, row] of rows) {
+  for (const [name, row] of thirdParty) {
     if (!notices.includes(`\`${name}\``)) fail(`THIRD-PARTY-NOTICES.md does not mention ${name}`);
     if (!notices.toLowerCase().includes(row.license.toLowerCase())) {
       fail(`THIRD-PARTY-NOTICES.md does not state ${row.license} for ${name}`);
     }
-    if (upstream && !upstream.includes(`| \`${name}\``)) fail(`UPSTREAM.md does not mention ${name}`);
+    if (!upstream.includes(`| \`${name}\``)) fail(`UPSTREAM.md does not mention ${name}`);
   }
 
   return rows;

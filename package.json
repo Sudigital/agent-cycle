@@ -39,13 +39,16 @@
   ],
   "type": "module",
   "scripts": {
-    "check": "node scripts/check-provenance.mjs && node bin/agent-cycle.mjs --check --target .tmp-skills",
+    "check": "npm run provenance && npm run release:check && npm run refs && node bin/agent-cycle.mjs --check --target .tmp-skills",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
     "provenance": "node scripts/check-provenance.mjs",
-    "test": "npm run provenance && npm run test:install && npm run test:contract",
+    "refs": "node scripts/check-skill-refs.mjs",
+    "release:check": "node scripts/check-release.mjs",
+    "test": "npm run provenance && npm run release:check && npm run refs && npm run test:scripts && npm run test:install && npm run test:contract",
     "test:contract": "rm -rf .tmp-project && node bin/agent-cycle.mjs install --target .tmp-project --both --with-docs && node bin/agent-cycle.mjs --check --target .tmp-project --both --with-docs",
-    "test:install": "rm -rf .tmp-skills && node bin/agent-cycle.mjs install --target .tmp-skills && node bin/agent-cycle.mjs --check --target .tmp-skills"
+    "test:install": "rm -rf .tmp-skills && node bin/agent-cycle.mjs install --target .tmp-skills && node bin/agent-cycle.mjs --check --target .tmp-skills",
+    "test:scripts": "node --test scripts/*.test.mjs"
   },
   "devDependencies": {
     "oxfmt": "^0.47.0"

@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Verify and publish
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Verify tag against package, README pins, and changelog
+        run: node scripts/check-release.mjs --tag "$GITHUB_REF_NAME"
+
+      - name: Create GitHub Release from the changelog section
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "release $TAG already exists"
+            exit 0
+          fi
+          node scripts/check-release.mjs --tag "$TAG" --print-notes > "$RUNNER_TEMP/notes.md"
+          gh release create "$TAG" --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"

@@ -18,6 +18,14 @@ migrations and schema, auth and permissions, payments and webhooks, deploy and
 key handling, and public contracts (APIs, events, file formats). Everything else
 may merge after the checks are green and the review findings are closed.
 
+## Maintenance lane
+
+A change confined to docs, checks, CI, version pins, ignore rules, or release
+housekeeping may land directly on the base branch with no ticket or pull request.
+It still needs the full checks green and a `git diff` self-review. Shipped
+skills, the installer, adapters, the lock format, and the cycle's stages and
+gates stay on the five-stage path.
+
 ## Merge gate
 
 A green suite and an approving review are necessary, not sufficient. Merge only
