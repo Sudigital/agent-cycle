@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `skills/product-brainstorming`: vendored manual-only ideation sparring
+  partner from `anthropics/knowledge-work-plugins`, pinned in `provenance.json`,
+  `UPSTREAM.md`, and `THIRD-PARTY-NOTICES.md`.
+- `skills/llm-wiki`: repo-owned manual-only wiki maintainer for `docs/wiki/`,
+  with `ingest`, `query`, and `lint` under index-first, citation-first token
+  rules.
+- `CLAUDE.md`: `/skill:product-brainstorming` and `/skill:llm-wiki` as optional
+  pre-coding steps that never replace the Plan interview.
 - `docs/agents/review.md`: the CI gate, the human risk lane, and the
   generated-artefact review policy.
 - Tracker ticket-body contract: mandatory description, acceptance criteria,

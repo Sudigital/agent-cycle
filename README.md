@@ -3,7 +3,7 @@
 A portable agent skill kit: interview → approval → ticket → TDD → review →
 handoff, with tracker adapters and context-reset handoffs.
 
-The kit is prose, not a framework. It ships thirteen skills, a workflow-only
+The kit is prose, not a framework. It ships fifteen skills, a workflow-only
 contract, a tracker interface with a worked Notion adapter, and a copy-in
 installer that records exactly what it copied. There are no runtime
 dependencies, the installer creates no symlinks, and it makes no network access
@@ -51,7 +51,7 @@ lock records the tag and hashes without a commit.
 
 | Path                     | Purpose                                                                            |
 | ------------------------ | ---------------------------------------------------------------------------------- |
-| `skills/`                | The thirteen portable skills, one directory per skill.                             |
+| `skills/`                | The fifteen portable skills, one directory per skill.                              |
 | `CLAUDE.md`              | The workflow contract: five stages, the approval gate, handoffs, token discipline. |
 | `AGENTS.md`              | Relative symlink to `CLAUDE.md` for hosts that read that name.                     |
 | `docs/agents/tracker.md` | The tracker interface every adapter implements.                                    |
@@ -109,6 +109,8 @@ blocker.
 | `pentest`                       | On demand — authorized dynamic testing |
 | `shadcn`                        | On demand — frontend                   |
 | `frontend-design`               | On demand — frontend                   |
+| `product-brainstorming`         | Before Plan — optional ideation        |
+| `llm-wiki`                      | Before Plan — optional research wiki   |
 
 ## Adapting the contract
 

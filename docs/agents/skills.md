@@ -3,7 +3,7 @@
 Reference for `CLAUDE.md`. The contract wins where this file and the contract
 disagree.
 
-`skills/` holds thirteen portable skills. `provenance.json` classifies each as
+`skills/` holds fifteen portable skills. `provenance.json` classifies each as
 `repo-owned`, `adapted`, or `vendored`; `UPSTREAM.md` records the source pin for
 the adapted and vendored ones.
 
@@ -22,6 +22,8 @@ the adapted and vendored ones.
 | `pentest`                       | On demand — dynamic test | current session | user, on an authorized local or staging target                               |
 | `shadcn`                        | On demand — frontend     | current session | agent, only when a frontend workspace changes                                |
 | `frontend-design`               | On demand — frontend     | current session | agent, only when a frontend workspace changes                                |
+| `product-brainstorming`         | Before Plan — optional   | current session | user (`/skill:product-brainstorming`)                                        |
+| `llm-wiki`                      | Before Plan — optional   | current session | user (`/skill:llm-wiki ingest`, `query`, or `lint`)                          |
 
 **Context resets at phase boundaries.** Plan and Task run in one session;
 Build, Verify, and Reset each start fresh. A fresh phase reads
@@ -40,8 +42,12 @@ the task changes a frontend workspace, never for backend-only or docs work.
 
 ## Invocation
 
-- `grill-with-docs`, `handoff`, and `improve-codebase-architecture` are
-  `disable-model-invocation`: the user types them.
+- `grill-with-docs`, `handoff`, `improve-codebase-architecture`,
+  `product-brainstorming`, and `llm-wiki` are `disable-model-invocation`: the
+  user types them.
+- `product-brainstorming` and `llm-wiki` are optional pre-coding steps: ideation
+  and a persistent `docs/wiki/`. Neither is a stage and neither replaces the
+  Plan interview.
 - `grill-with-docs` reads `skill://grilling` and runs the interview; it then
   writes the paper trail, opens the Task stage, and closes the session with the
   Build handoff.

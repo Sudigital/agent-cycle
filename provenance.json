@@ -103,6 +103,21 @@
       "commit": "c1c8a8c1471069fb0e188eeaff69b8e8db6564a8",
       "license": "MIT",
       "licenseFile": "LICENSE.txt"
+    },
+    {
+      "path": "skills/product-brainstorming",
+      "classification": "vendored",
+      "source": "https://github.com/anthropics/knowledge-work-plugins",
+      "commit": "a518709449b0a32276af38c9b2a2f38c3219f5bc",
+      "license": "Apache-2.0",
+      "licenseFile": "LICENSE.txt"
+    },
+    {
+      "path": "skills/llm-wiki",
+      "classification": "repo-owned",
+      "source": "https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f",
+      "commit": "ac46de1ad27f92b28ac95459c782c07f6b8c964a",
+      "license": "MIT"
     }
   ]
 }
