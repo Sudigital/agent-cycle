@@ -14,13 +14,13 @@ small Node CLI and validation scripts; the bar is accuracy, not volume.
 
 ## Workflow
 
-1. Fork and branch from `main`: `<type>/<short-description>`.
+1. Fork and branch from `dev`: `<type>/<short-description>`.
 2. Make the smallest change that solves the problem.
 3. Run the checks below.
 4. Commit with a conventional subject. Add `Assisted-by: <tool> (<model>)` only
    when an AI assistant materially authored the change.
-5. Open a pull request that names the problem, the change, and how you verified
-   it. The body must answer **Risk**, **Standards**, and **Spec**.
+5. Open a pull request against `dev` that names the problem, the change, and how
+   you verified it. The body must answer **Risk**, **Standards**, and **Spec**.
 
 ## Changing a skill
 
