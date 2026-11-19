@@ -30,6 +30,7 @@
     "node_modules",
     "coverage",
     "skills/**",
+    ".omp/skills/**",
     "adapters/**",
     "CHANGELOG.md",
     "LICENSE",

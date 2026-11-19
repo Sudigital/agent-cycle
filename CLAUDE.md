@@ -48,6 +48,16 @@ keep a one-line stage marker (`Plan → Task → **Build** → Verify → Reset`
 reply so both sides can see where the work is. A phase starts only after the
 previous one is marked done.
 
+### Optional pre-coding (before stage 1)
+
+Neither step is a stage and neither replaces the Plan interview. Run one only
+when the request benefits, then start the cycle:
+
+- `/skill:product-brainstorming` — honest product feedback and ideation while
+  the problem is still open.
+- `/skill:llm-wiki` — save research and product decisions into `docs/wiki/`;
+  read `docs/wiki/index.md` first so later stages cite one source of truth.
+
 ### 1. Plan — `skill://grill-with-docs`
 
 Interview the request until the work is unambiguous. The plan must name:
